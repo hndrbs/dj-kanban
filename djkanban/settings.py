@@ -27,9 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-USER_MODEL_AUTH = "users.models.User"
-
-
 # Application definition
 
 INSTALLED_APPS = [
