@@ -4,33 +4,31 @@
 {% endblock navigation %}
 
 {% block title %}
-  Dj - Kanban | Registration
+  Dj - Kanban | Login
 {% endblock title %}
   
 
 {% block content %}
-<div class="container-fluid">
+<div class="container">
   <div class="row align-items-center justify-content-center">
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 mt-5">
       <div class="card px-5 py-5 shadow-sm">
         <div class="text-center">
-          <h5 class="mt-3">Join Dj - Kanban<br/>
-          <small class="mt-2 text-muted">and manage your project in our web app for <strong>free</strong> </small>
+          <h1>Login</h1>
           <form action="" method="post">
-            
             {% for field in form %}
               <div class="form-group py-2">
-                <div class="mb-1 fs-6">
+                <div class="mb-1">
                   <label>{{ field.label }}</label>
                 </div>
                 {{ field }}
               </div>
             {% endfor %}
               
-            <button type="submit" class="btn btn-sm btn-secondary my-3">Register</button>
+            <button type="submit" class="btn btn-sm btn-secondary my-3">Login</button>
           </form>
           <div>
-            <p class="fs-6 text-muted">already joined? <a href="{% url 'login' %}">login</a></p>
+            <p class="fs-6 text-muted">have not joined yet? <a href="{% url 'register' %}">Join us</a></p>
           </div>
         </div>
       </div>
