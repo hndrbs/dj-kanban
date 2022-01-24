@@ -17,7 +17,7 @@
           <h5 class="mt-3">Join Dj - Kanban<br/>
           <small class="mt-2 text-muted">and manage your project in our web app for <strong>free</strong> </small>
           <form action="" method="post">
-            
+            {% csrf_token %}
             {% for field in form %}
               <div class="form-group py-2">
                 <div class="mb-1 fs-6">

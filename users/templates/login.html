@@ -16,6 +16,7 @@
         <div class="text-center">
           <h1>Login</h1>
           <form action="" method="post">
+            {% csrf_token %}
             {% for field in form %}
               <div class="form-group py-2">
                 <div class="mb-1">

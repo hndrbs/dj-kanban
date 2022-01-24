@@ -17,6 +17,13 @@ class RegisterForm(forms.ModelForm):
   class Meta:
     model = User
     fields = ['username', 'first_name', 'last_name', 'email', 'password']
+  
+  def clean(self):
+    password = self.cleaned_data['password']
+    confirmation_password = self.cleaned_data['confirmation_password']
+    if (password != confirmation_password):
+      raise forms.ValidationError("password and validation password do not match")
+    return super().clean()
 
 
 class LoginForm(forms.Form):
