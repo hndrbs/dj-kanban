@@ -10,7 +10,12 @@
   <title>{% block title %}Dj - Kanban{% endblock title %}</title>
 </head>
 <body>
+
   
+  {% block navigation %}
+    {% include 'navigation.html' %}
+  {% endblock navigation %}
+    
   {% block content %}
     
   {% endblock content %}
