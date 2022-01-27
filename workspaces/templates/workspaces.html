@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Dj-Kanban | My Workspaces
+{% endblock title %}
+
+
+
+{% block content %}
+  {% include 'messages.html' %}
+  {% for workspace in workspaces %}
+    {{ workspace }}
+  {% endfor %}
+    
+{% endblock content %}
+  
