@@ -39,7 +39,8 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'livereload',
   'django.contrib.staticfiles',
-  'users'
+  'users',
+  'workspaces'
 ]
 
 AUTH_USER_MODEL = 'users.User'

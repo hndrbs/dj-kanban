@@ -7,9 +7,9 @@
   - login
 
 <!-- phase 2 -->
-- create workspaces
-- create and edit boards on workspaces
-- each board should be able filled by cards
+- CRUD workspaces
+- CRUD boards on workspaces
+- each board should be able to be filled by cards
 - each card can be moved from one board to another board
 
 <!-- phase 3 -->
