@@ -9,9 +9,22 @@
 
 {% block content %}
   {% include 'messages.html' %}
+  <div class="d-flex justify-content-end p-2">
+    <a class="btn-sm btn btn-primary" href="{% url 'add-workspace' %}">Add workspace</a>
+  </div>
+  <div class="row pt-3 px-2">
   {% for workspace in workspaces %}
-    {{ workspace }}
-  {% endfor %}
+      <div class="col-lg-4 col-12 mt-1">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ workspace.title }}</h5>
+            <p class="card-text text-muted">{{ workspace.desc }}</p>
+            <a href="#" class="btn btn-primary btn-sm">See workspace</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
     
 {% endblock content %}
   

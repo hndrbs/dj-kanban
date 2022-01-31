@@ -4,12 +4,12 @@
   <div class="w-50 position-fixed start-50" style="z-index: 999;">
     {% for msg in messages %}
       {% if msg.tags == 'error' %}
-          <div class="alert alert-danger text-center my-0 alert-dismissible fade show shadow" role="alert">
+          <div class="alert alert-danger text-center my-3 alert-dismissible fade show shadow" role="alert">
             <span>{{ msg }}</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
       {% else %}
-          <div class="alert alert-{{ msg.tags }} text-center my-0 alert-dismissible fade show shadow" role="alert">
+          <div class="alert alert-{{ msg.tags }} text-center my-3 alert-dismissible fade show shadow" role="alert">
             <span>{{ msg }}</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
@@ -19,12 +19,15 @@
 </div>
 
 <script>
-  setTimeout(() => {
-    let arrayOfAlerts = [].slice.call(document.querySelectorAll(".alert"))
-    arrayOfAlerts.forEach(alert => {
+  let baseDelay = 10000
+  let incrementDelay = 1500
+  let arrayOfAlerts = [].slice.call(document.querySelectorAll(".alert"))
+
+  arrayOfAlerts.forEach((alert, idx) => {
+    setTimeout(() => {
       alert.remove()
-    })
-  }, 5000)
+    }, baseDelay + (incrementDelay * idx))
+  })
 </script>
 
 {% endif %}

@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.contrib.auth import login, logout
 
 @require_http_methods(["GET", "POST"])
-def registerView(request: HttpRequest) -> HttpResponse:
+def register_view(request: HttpRequest) -> HttpResponse:
   if request.method == "GET":
     context = {
       'form': RegisterForm()
@@ -27,7 +27,7 @@ def registerView(request: HttpRequest) -> HttpResponse:
 
 
 @require_http_methods(["GET", "POST"])
-def loginView(request: HttpRequest) -> HttpResponse:
+def login_view(request: HttpRequest) -> HttpResponse:
   if request.method == "GET":
     context = {
       'form': LoginForm()
@@ -62,7 +62,7 @@ def loginView(request: HttpRequest) -> HttpResponse:
     return render(request, "login.html", context)
 
 @require_http_methods(["GET"])
-def logoutView(request: HttpRequest) -> HttpResponse:
+def logout_view(request: HttpRequest) -> HttpResponse:
   logout(request)
 
   return redirect(urls.reverse("login"))
