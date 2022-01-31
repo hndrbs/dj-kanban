@@ -1,6 +1,7 @@
+import base64
 from django.db import models
 # Create your models here.
-
+from django.conf import settings
 
 class Workspace(models.Model):
   class Meta:
@@ -17,6 +18,11 @@ class Workspace(models.Model):
 
   def __str__(self) -> str:
       return self.title
+
+  def get_base64_encoded(self):
+    plain_string = str(self.id) + settings.SECRET_KEY
+    my_bytes = plain_string.encode('utf-8')
+    return base64.b64encode(my_bytes).decode('utf-8')
 
 class Board(models.Model):
   class Meta:

@@ -8,4 +8,3 @@ class WorkspaceForm(forms.ModelForm):
   class Meta:
     model = Workspace
     fields = ['title', 'desc']
-    
