@@ -7,10 +7,10 @@ from .models import User
 from django.core import exceptions
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 @require_http_methods(["GET", "POST"])
-def registerView(request: HttpRequest) -> HttpResponse:
+def register_view(request: HttpRequest) -> HttpResponse:
   if request.method == "GET":
     context = {
       'form': RegisterForm()
@@ -23,13 +23,11 @@ def registerView(request: HttpRequest) -> HttpResponse:
       form.save()
       return redirect(urls.reverse('login'))
     
-    print(form.errors)
-    
     return render(request, "register.html", { "form": form })
 
 
 @require_http_methods(["GET", "POST"])
-def loginView(request: HttpRequest) -> HttpResponse:
+def login_view(request: HttpRequest) -> HttpResponse:
   if request.method == "GET":
     context = {
       'form': LoginForm()
@@ -51,7 +49,7 @@ def loginView(request: HttpRequest) -> HttpResponse:
         if user is not None and user.check_password(password):
           messages.success(request, "success to login")
           login(request, user)
-          return HttpResponse("yeaaahy")
+          return redirect(urls.reverse('workspaces'))
 
         messages.warning(request, "username or email cannot be found")
         
@@ -62,3 +60,9 @@ def loginView(request: HttpRequest) -> HttpResponse:
       messages.error(request, "something went wrong, it's on us, we are sorry")
     
     return render(request, "login.html", context)
+
+@require_http_methods(["GET"])
+def logout_view(request: HttpRequest) -> HttpResponse:
+  logout(request)
+
+  return redirect(urls.reverse("login"))
