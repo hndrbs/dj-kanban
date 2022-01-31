@@ -17,7 +17,7 @@
     <div class="col-12 col-md-6 mt-5">
       <div class="card px-5 py-4 shadow-sm">
         <div class="text-center">
-          <h1>Add Workspace</h1>
+          <h1>{{ title_form }}</h1>
           <form action="" method="post">
             {% csrf_token %}
             {% for field in form %}
@@ -29,7 +29,7 @@
               </div>
             {% endfor %}
               
-            <button type="submit" class="btn btn-sm btn-secondary my-3">Add Workspace</button>
+            <button type="submit" class="btn btn-sm btn-secondary my-3">{{ submit_button_name }}</button>
           </form>
         </div>
       </div>

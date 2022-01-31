@@ -22,9 +22,10 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
                 <li>
-                  <a href="{% url 'deactivate-workspace' workspace.get_base64_encoded %}" class="dropdown-item text-muted">
-                    archive
-                  </a>
+                  <a href="{% url 'edit-workspace' workspace.get_base64_encoded %}" class="dropdown-item">edit</a>
+                </li>
+                <li>
+                  <a href="{% url 'deactivate-workspace' workspace.get_base64_encoded %}" class="dropdown-item text-muted">archive</a>
                 </li>
               </ul>
           </div>
