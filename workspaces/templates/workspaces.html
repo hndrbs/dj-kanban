@@ -25,14 +25,18 @@
                   <a href="{% url 'edit-workspace' workspace.get_base64_encoded %}" class="dropdown-item">edit</a>
                 </li>
                 <li>
-                  <a href="{% url 'deactivate-workspace' workspace.get_base64_encoded %}" class="dropdown-item text-muted">archive</a>
+                  <form action="{% url 'deactivate-workspace' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ workspace.get_base64_encoded }}">
+                    <button type="submit" class="btn btn-transparent text-muted">archive</button>
+                  </form>
                 </li>
               </ul>
           </div>
           <div class="card-body pt-0">
             <h5 class="card-title">{{ workspace.title }}</h5>
             <p class="card-text text-muted">{{ workspace.desc }}</p>
-            <a href="#" class="btn btn-primary btn-sm">See workspace</a>
+            <a href="{% url 'boards' workspace.get_base64_encoded %}" class="btn btn-primary btn-sm">See workspace</a>
           </div>
         </div>
       </div>

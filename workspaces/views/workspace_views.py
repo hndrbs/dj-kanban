@@ -9,7 +9,7 @@ from django import urls
 # my modules
 from workspaces.contants import Constant as Const
 from workspaces.forms import WorkspaceForm
-from workspaces.models import Workspace
+from workspaces.models import Workspace, WorkspaceMember
 
 login_url = "/auth/login"
 
@@ -40,13 +40,16 @@ def add_workspace(request: HttpRequest):
     form = WorkspaceForm(request.POST)
     try:
       if form.is_valid():
-        new_workspace = Workspace(
+        new_workspace = Workspace.objects.create(
           title=form.cleaned_data['title'],
           desc=form.cleaned_data['desc'],
           owner=request.user
         )
-        new_workspace.save()
-
+        WorkspaceMember.objects.create(
+          member=request.user,
+          workspace=new_workspace
+        )
+        
         messages.success(request, "successfully save new workspace")
         return redirect(urls.reverse(Const.WORKSPACES_URL))
       
@@ -105,10 +108,11 @@ def edit_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
       messages.error(request, str(err))
       messages.error(request, Const.EXCEPTION_MESSAGE)
 
-@require_http_methods(["GET"])
+@require_http_methods(["POST"])
 @login_required(login_url=login_url)
-def deactivate_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
+def deactivate_workspace(request: HttpRequest) -> HttpResponse:
   try:
+    b64_id = request.POST.get('id')
     id = Workspace.get_workspace_id(b64_id)
     workspace = Workspace.objects.get(id=id)
     workspace.is_active = False

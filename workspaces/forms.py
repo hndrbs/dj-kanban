@@ -1,5 +1,5 @@
 from django import forms
-from .models import Workspace
+from .models import Board, Workspace
 
 
 class WorkspaceForm(forms.ModelForm):
@@ -8,3 +8,8 @@ class WorkspaceForm(forms.ModelForm):
   class Meta:
     model = Workspace
     fields = ['title', 'desc']
+
+class BoardForm(forms.ModelForm):
+  class Meta:
+    model = Board
+    fields = ['title']

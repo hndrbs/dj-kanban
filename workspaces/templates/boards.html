@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Dj - Kanban | {{ workspace_title }}
+{% endblock title %}
+
+
+
+{% block content %}
+  <div class="d-flex justify-content-end px-2 py-3">
+    <div class="flex-fill"><h2 class="fs-4 text-start">{{ workspace_title }}</h2></div>
+    <div>
+      <button class="btn btn-sm btn-primary mx-2">add member</button>
+      <button class="btn btn-sm btn-primary">add board</button>
+    </div>
+  </div>
+  <div>
+    {% for board in boards %}
+      {{ board }}
+    {% empty %}
+      <p class="text-center">whoaaa, there is no board here, let's add some</p>
+    {% endfor %}
+  </div>
+    
+{% endblock content %}
+  
