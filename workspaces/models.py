@@ -75,3 +75,15 @@ class Assignment(models.Model):
   
   def __str__(self) -> str:
       return f'{self.card} {self.user}'
+
+class WorkspaceMember(models.Model):
+  class Meta:
+    db_table = 'WorkspaceMembers'
+    ordering = ['-created_at']
+  
+  id = models.BigAutoField(primary_key=True)
+  workspace = models.ForeignKey('workspaces.Workspace', on_delete=models.CASCADE)
+  member = models.ForeignKey('users.User', on_delete=models.CASCADE)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
+  is_active = models.BooleanField(default=True)

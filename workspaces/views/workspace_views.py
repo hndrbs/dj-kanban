@@ -1,13 +1,15 @@
-from django.shortcuts import redirect, render
+# django's modules
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpRequest
-from workspaces.forms import WorkspaceForm
-from .models import Workspace
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.db.models import Q
-from .contants import Constant as Const
 from django import urls
+# my modules
+from workspaces.contants import Constant as Const
+from workspaces.forms import WorkspaceForm
+from workspaces.models import Workspace
 
 login_url = "/auth/login"
 
@@ -122,4 +124,3 @@ def deactivate_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
   
   return redirect(urls.reverse(Const.WORKSPACES_URL))
 
-      
