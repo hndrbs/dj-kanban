@@ -1,16 +1,12 @@
 {% extends 'base.html' %}
 
-
 {% block navigation %}
   
 {% endblock navigation %}
 
-
-
 {% block title %}
 Dj - Kanban | Add Board on {{ workspace.title }}
 {% endblock title %}
-
 
 {% block content %}
 <div class="container">
@@ -18,7 +14,7 @@ Dj - Kanban | Add Board on {{ workspace.title }}
     <div class="col-12 col-md-6 mt-5">
       <div class="card px-5 py-4 shadow-sm">
         <div class="text-center">
-          <h1>{{ title_form }}</h1>
+          <h1 class="fs-4">{{ title_form }}</h1>
           <form action="" method="post">
             {% csrf_token %}
             {% for field in form %}
