@@ -1,13 +1,13 @@
-from django import urls
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from .forms import LoginForm, RegisterForm
-from .models import User
-from django.core import exceptions
-from django.contrib import messages
-from django.db.models import Q
+from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import login, logout
+from django.shortcuts import redirect, render
+from .forms import LoginForm, RegisterForm
+from django.contrib import messages
+from django.core import exceptions
+from django.db.models import Q
+from django import urls
+from .models import User
 
 @require_http_methods(["GET", "POST"])
 def register_view(request: HttpRequest) -> HttpResponse:

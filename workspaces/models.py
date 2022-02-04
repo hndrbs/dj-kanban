@@ -33,7 +33,7 @@ class Workspace(models.Model):
 class Board(models.Model):
   class Meta:
     db_table = 'Boards'
-    ordering = ['-id', '-updated_at', '-created_at']
+    ordering = ['board_number', 'id']
   
   id = models.BigAutoField(primary_key=True)
   title = models.CharField(max_length=100)

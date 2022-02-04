@@ -7,7 +7,7 @@ from django import urls
 # my modules
 from workspaces.contants import Constant as Const
 from workspaces.forms import BoardForm
-from workspaces.models import Board, Workspace
+from workspaces.models import Board, Card, Workspace
 
 @login_required
 @require_http_methods(["GET"])
@@ -15,9 +15,12 @@ def fetch_all_boards(request: HttpRequest, encrypted_workspace_id: str) -> HttpR
   try:
     workspace_id = Workspace.get_workspace_id(encrypted_workspace_id)
     workspace = Workspace.objects.get(id=workspace_id)
-    boards = Board.objects.filter(workspace_id=workspace_id)
+    boards = Board.objects.filter(workspace=workspace)
+    cards = Card.objects.filter(board__in=boards)
+    
     context = {
       'boards': boards,
+      'cards': cards,
       'workspace': workspace
     }
     
@@ -71,4 +74,49 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str, workspace_title
     
     context['form'] = form
     return render(request, 'form_board.html', context)
+
+
+def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id: int) -> HttpResponse:
+  context = {
+    'title_form': f'Edit Board',
+    'submit_button_name': f"Edit Board"
+  }
+  
+  if request.method == 'GET':
+    try:
+      board = Board.objects.get(id=board_id)
+      context['form'] = BoardForm(instance=board)
+      
+      return render(request, 'form_board.html', context)
     
+    except Board.DoesNotExist:
+      messages.warning(request, Const.NOT_FOUND_MESSAGE)
+    
+    except Exception as err:
+      messages.error(request, str(err))
+      messages.error(request, Const.EXCEPTION_MESSAGE)
+    
+    return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+
+  else:
+    form = BoardForm(request.POST)
+    try:
+      if form.is_valid():
+        form.save()
+        
+        messages.success(request, f'successfully edit board')
+        return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+      
+      messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
+      
+    except (Workspace.DoesNotExist):
+      messages.warning(request, Const.NOT_FOUND_MESSAGE)
+    
+    except Exception as err:
+      messages.error(request, str(err))
+      messages.error(request, Const.EXCEPTION_MESSAGE)
+    
+    context['form'] = form
+    return render(request, 'form_board.html', context)
+  
+  
