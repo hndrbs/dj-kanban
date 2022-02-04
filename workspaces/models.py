@@ -18,17 +18,6 @@ class Workspace(models.Model):
 
   def __str__(self) -> str:
       return self.title
-    
-  def get_base64_encoded(self):
-    plain_string = str(self.id) + Helper.get_encryption_key()
-    my_bytes = plain_string.encode('utf-8')
-    return base64.b64encode(my_bytes).decode('utf-8')
-
-  @staticmethod
-  def get_workspace_id(b64_id: str) -> int:
-    id_secret_key = base64.b64decode(b64_id).decode('utf-8')
-    id = id_secret_key.split(Helper.get_encryption_key())[0]
-    return int(id)
   
 class Board(models.Model):
   class Meta:

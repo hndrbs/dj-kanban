@@ -1,3 +1,4 @@
+from helpers import Helper
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
@@ -13,10 +14,10 @@ from workspaces.models import Board, Card, Workspace
 @require_http_methods(["GET"])
 def fetch_all_boards(request: HttpRequest, encrypted_workspace_id: str) -> HttpResponse:
   try:
-    workspace_id = Workspace.get_workspace_id(encrypted_workspace_id)
+    workspace_id = Helper.get_model_id(encrypted_workspace_id)
     workspace = Workspace.objects.get(id=workspace_id)
     boards = Board.objects.filter(workspace=workspace)
-    cards = Card.objects.filter(board__in=boards)
+    cards = Card.objects.filter(board__in=boards).select_related('board')
     
     context = {
       'boards': boards,
@@ -52,7 +53,7 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str, workspace_title
     form = BoardForm(request.POST)
     try:
       if form.is_valid():
-        workspace = Workspace.objects.get(id=Workspace.get_workspace_id(encrypted_workspace_id))
+        workspace = Workspace.objects.get(id=Helper.get_model_id(encrypted_workspace_id))
         existing_boards = Board.objects.filter(workspace=workspace)
         Board.objects.create(
           title=form.cleaned_data['title'],
@@ -75,7 +76,8 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str, workspace_title
     context['form'] = form
     return render(request, 'form_board.html', context)
 
-
+@login_required
+@require_http_methods(['GET', 'POST'])
 def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id: int) -> HttpResponse:
   context = {
     'title_form': f'Edit Board',

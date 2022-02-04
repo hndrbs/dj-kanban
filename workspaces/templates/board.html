@@ -1,5 +1,15 @@
-<div class="d-flex flex-column">
-  <div>{{ board.title }}</div>
+<div class="d-flex flex-column container">
+  <div class="bg-secondary text-light p-2 d-flex">
+    <span class="me-auto">{{ board.title }}</span>
+    <button class="btn btn-light btn-sm">+</button>
+  </div>
   <div class="flex-fill">
+
+    {% for card in cards  %}
+      {% if card.board_id == board.id %}
+        <p> {{ card.title }} </p>
+      {% endif %}
+    {% endfor %}
+      
   </div>
 </div>

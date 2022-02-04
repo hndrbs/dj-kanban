@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.db.models import Q
 from django import urls
+from helpers import Helper
 # my modules
 from workspaces.contants import Constant as Const
 from workspaces.forms import WorkspaceForm
@@ -65,7 +66,7 @@ def add_workspace(request: HttpRequest):
 
 @require_http_methods(["GET", "POST"])
 @login_required(login_url=login_url)
-def edit_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
+def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpResponse:
   context = {
     'submit_button_name': 'Edit Workspace',
     'title_form': 'Edit Workspace'
@@ -73,7 +74,7 @@ def edit_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
   
   if request.method == "GET":
     try:
-      id = Workspace.get_workspace_id(b64_id)
+      id = Helper.get_model_id(encrypted_workspace_id)
       workspace = Workspace.objects.get(id=id)
       form = WorkspaceForm(instance=workspace)
       context.update({ 'form': form })
@@ -88,7 +89,7 @@ def edit_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
       return redirect(urls.reverse(Const.WORKSPACES_URL))
   else:
     try:
-      id = Workspace.get_workspace_id(b64_id)
+      id = Helper.get_model_id(encrypted_workspace_id)
       workspace = Workspace.objects.get(id=id)
       form = WorkspaceForm(request.POST)
       if form.is_valid():
@@ -112,8 +113,8 @@ def edit_workspace(request: HttpRequest, b64_id: str) -> HttpResponse:
 @login_required(login_url=login_url)
 def deactivate_workspace(request: HttpRequest) -> HttpResponse:
   try:
-    b64_id = request.POST.get('id')
-    id = Workspace.get_workspace_id(b64_id)
+    encrypted_id = request.POST.get('id')
+    id = Helper.get_model_id(encrypted_id)
     workspace = Workspace.objects.get(id=id)
     workspace.is_active = False
     workspace.save()
