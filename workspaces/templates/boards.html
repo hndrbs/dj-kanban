@@ -19,7 +19,7 @@
 
     <div class="flex-fill d-flex">
       {% for board in boards %}
-        {% include 'board.html' with board=board cards=cards %}
+        {% include 'components/board.html' with board=board cards=cards %}
       {% empty %}
         <p class="text-center">whoaaa, there is no board here, let's add some</p>
       {% endfor %}

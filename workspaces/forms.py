@@ -14,7 +14,7 @@ class BoardForm(forms.ModelForm):
     model = Board
     fields = ['title']
 
-class BoardForm(forms.ModelForm):
+class CardForm(forms.ModelForm):
   class Meta:
     model = Card
-    fields = ['title']
+    fields = ['title', 'target_date']

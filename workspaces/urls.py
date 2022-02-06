@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.urls import include, path
-from .views import workspace_views as wv, board_views as bv
+from .views import (
+  workspace_views as wv,
+  board_views as bv,
+  card_views as cv
+)
 
 urlpatterns = [
   path('', wv.fetch_all_workspaces, name='workspaces'),
@@ -10,6 +14,6 @@ urlpatterns = [
   path('boards/<str:encrypted_workspace_id>', bv.fetch_all_boards, name='boards'),
   path('boards/add/<str:encrypted_workspace_id>/<str:workspace_title>', bv.add_board, name='add-board'),
   path('boards/edit/<str:encrypted_workspace_id>/<int:board_id>', bv.edit_board_title, name='edit-board'),
-  path('cards/add/<str:encrypted_board_id>', bv.edit_board_title, name='add-card')
+  path('cards/add/<str:encrypted_board_id>', cv.add_card, name='add-card')
 ]
 
