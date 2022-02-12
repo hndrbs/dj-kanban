@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-
 {% block title %}
   Dj-Kanban | My Workspaces
 {% endblock title %}
 
-
+{% load workspace_template_tags %}
 
 {% block content %}
-  {% include 'messages.html' %}
   <div class="d-flex justify-content-end p-2">
     <a class="btn-sm btn btn-primary" href="{% url 'add-workspace' %}">Add workspace</a>
   </div>
@@ -22,17 +20,21 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
                 <li>
-                  <a href="{% url 'edit-workspace' workspace.get_base64_encoded %}" class="dropdown-item">edit</a>
+                  <a href="{% url 'edit-workspace' workspace.id|encrypt_id %}" class="dropdown-item">edit</a>
                 </li>
                 <li>
-                  <a href="{% url 'deactivate-workspace' workspace.get_base64_encoded %}" class="dropdown-item text-muted">archive</a>
+                  <form action="{% url 'deactivate-workspace' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
+                    <button type="submit" class="btn btn-transparent text-muted">archive</button>
+                  </form>
                 </li>
               </ul>
           </div>
           <div class="card-body pt-0">
             <h5 class="card-title">{{ workspace.title }}</h5>
             <p class="card-text text-muted">{{ workspace.desc }}</p>
-            <a href="#" class="btn btn-primary btn-sm">See workspace</a>
+            <a href="{% url 'boards' workspace.id|encrypt_id %}" class="btn btn-primary btn-sm">See workspace</a>
           </div>
         </div>
       </div>

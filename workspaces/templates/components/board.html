@@ -1,0 +1,16 @@
+{% load workspace_template_tags %}
+<div class="d-flex flex-column container">
+  <div class="bg-secondary text-light p-2 d-flex">
+    <span class="me-auto">{{ board.title }}</span>
+    <a class="btn btn-light btn-sm" href="{% url 'add-card' board.id|encrypt_id %}">+</a>
+  </div>
+  <div class="flex-fill py-2">
+
+    {% for card in cards  %}
+      {% if card.board_id == board.id %}
+        {% include 'components/card.html' with card=card %}
+      {% endif %}
+    {% endfor %}
+      
+  </div>
+</div>
