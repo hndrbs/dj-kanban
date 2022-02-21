@@ -15,7 +15,7 @@
       <div class="card px-5 py-5 shadow-sm">
         <div class="text-center">
           <h1>Login</h1>
-          <form action="" method="post">
+          <form method="post">
             {% csrf_token %}
             {% for field in form %}
               <div class="form-group py-2">
@@ -26,10 +26,24 @@
               </div>
             {% endfor %}
               
-            <button type="submit" class="btn btn-sm btn-secondary my-3">Login</button>
+            <button 
+              type="submit"
+              class="btn btn-sm btn-secondary my-3"
+              hx-post=""
+              hx-target="#content"
+              hx-swap="outerHTML"
+            >Login</button>
           </form>
           <div>
-            <p class="fs-6 text-muted">have not joined yet? <a href="{% url 'register' %}">Join us</a></p>
+            <p class="fs-6 text-muted">have not joined yet?
+              <span 
+                hx-get="{% url 'register' %}"
+                hx-target="#content"
+                class="clickable text-primary"
+                hx-swap="outerHTML"
+                hx-push-url="true">Join us
+              </span>
+            </p>
           </div>
         </div>
       </div>

@@ -7,10 +7,16 @@
 
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav mb-0 d-flex w-100">
-        <li class="nav-item me-auto">
-          <a class="nav-link text-light" href="{% url 'workspaces' %}">Workspaces</a>
+        <li class="nav-item me-auto" hx-boost="true">
+          <a 
+            class="nav-link text-light"
+            href="{% url 'workspaces' %}"
+            hx-swap="outerHTML"
+            hx-target="#content"
+            hx-select="#content"
+          >Workspaces</a>
         </li>
-        <li class="nav-item">
+        <li hx-boost="true" hx-target="body" class="nav-item">
           <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
         </li>
       </ul>

@@ -6,7 +6,6 @@
 {% block title %}
   Dj - Kanban | Registration
 {% endblock title %}
-  
 
 {% block content %}
 <div class="container-fluid">
@@ -22,7 +21,7 @@
               <p class="fs-6"><small>{{ err }}</small></p>
             {% endfor %}
           </div>
-          <form action="" method="post">
+          <form method="post">
             {% csrf_token %}
             {% for field in form %}
               <div class="form-group py-2">
@@ -37,10 +36,24 @@
                 </div>
               </div>
             {% endfor %}
-            <button type="submit" class="btn btn-sm btn-secondary my-3">Register</button>
+            <button type="submit" 
+              class="btn btn-sm btn-secondary my-3"
+              hx-post=""
+              hx-swap="outerHTML"
+              hx-target="#content"
+              hx-push-url="true"
+            >Register</button>
           </form>
           <div>
-            <p class="fs-6 text-muted">already joined? <a href="{% url 'login' %}">login</a></p>
+            <p class="fs-6 text-muted">already joined? 
+              <span 
+                hx-get="{% url 'login' %}"
+                hx-target="#content"
+                class="clickable text-primary"
+                hx-swap="outerHTML"
+                hx-push-url="true"
+              >login</span>
+            </p>
           </div>
         </div>
       </div>

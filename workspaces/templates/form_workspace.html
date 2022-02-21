@@ -14,7 +14,7 @@
       <div class="card px-5 py-4 shadow-sm">
         <div class="text-center">
           <h1>{{ title_form }}</h1>
-          <form action="" method="post">
+          <form method="post">
             {% csrf_token %}
             {% for field in form %}
               <div class="form-group py-2">
@@ -24,7 +24,13 @@
                 {{ field }}
               </div>
             {% endfor %}
-            <button type="submit" class="btn btn-sm btn-secondary my-3">{{ submit_button_name }}</button>
+            <button 
+              type="submit"
+              class="btn btn-sm btn-secondary my-3"
+              hx-target="body"
+              hx-post=""
+              hx-push-url="true"
+            >{{ submit_button_name }}</button>
           </form>
         </div>
       </div>

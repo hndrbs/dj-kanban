@@ -1,6 +1,7 @@
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 from .forms import LoginForm, RegisterForm
 from django.contrib import messages
@@ -9,6 +10,9 @@ from django.db.models import Q
 from django import urls
 from .models import User
 
+should_unauthenticated = user_passes_test(lambda user : not user.is_authenticated, "/", redirect_field_name=None)
+
+@should_unauthenticated
 @require_http_methods(["GET", "POST"])
 def register_view(request: HttpRequest) -> HttpResponse:
   if request.method == "GET":
@@ -21,11 +25,12 @@ def register_view(request: HttpRequest) -> HttpResponse:
     form = RegisterForm(request.POST)
     if form.is_valid():
       form.save()
+      messages.success(request, "success to register")
       return redirect(urls.reverse('login'))
     
     return render(request, "register.html", { "form": form })
 
-
+@should_unauthenticated
 @require_http_methods(["GET", "POST"])
 def login_view(request: HttpRequest) -> HttpResponse:
   if request.method == "GET":
