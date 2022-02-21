@@ -1,5 +1,5 @@
 {% load workspace_template_tags %}
-<div class="d-flex flex-column container">
+<div class="d-flex flex-column container" style="max-width: 400px;">
   <div class="bg-secondary text-light p-2 d-flex" hx-boost="true" hx-target="body">
     <span class="me-auto">{{ board.title }}</span>
     <a class="btn btn-light btn-sm" href="{% url 'add-card' board.id|encrypt_id %}">+</a>

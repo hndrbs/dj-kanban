@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="flex-fill d-flex">
+    <div class="flex-fill d-flex justify-content-start">
       {% for board in boards %}
         {% include 'components/board.html' with board=board cards=cards %}
       {% empty %}
