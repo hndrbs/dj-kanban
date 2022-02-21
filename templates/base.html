@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{% static 'base.css' %}">
   <title>{% block title %}Dj - Kanban{% endblock title %}</title>
 </head>
-<body>
+<body class="px-0">
 
   
   {% block navigation %}
@@ -22,7 +22,7 @@
   
   {% include 'messages.html' %}
   
-  <main id="content">
+  <main id="content" class="container-fluid">
     {% block content %}{% endblock content %}
   </main>
     
