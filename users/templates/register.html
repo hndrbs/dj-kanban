@@ -1,13 +1,4 @@
-{% extends 'base.html' %}
 
-{% block navigation %}
-{% endblock navigation %}
-
-{% block title %}
-  Dj - Kanban | Registration
-{% endblock title %}
-
-{% block content %}
 <div class="container-fluid">
   <div class="row align-items-center justify-content-center">
     <div class="col-12 col-md-6">
@@ -44,15 +35,15 @@
               hx-push-url="true"
             >Register</button>
           </form>
-          <div>
+          <div hx-boost="true">
             <p class="fs-6 text-muted">already joined? 
-              <span 
-                hx-get="{% url 'login' %}"
+              <a 
+                href="{% url 'login' %}"
                 hx-target="#content"
                 class="clickable text-primary"
-                hx-swap="outerHTML"
+                hx-swap="innerHTML"
                 hx-push-url="true"
-              >login</span>
+              >login</a>
             </p>
           </div>
         </div>
@@ -60,5 +51,4 @@
     </div>
   </div> 
 </div>
-{% endblock content %}
   

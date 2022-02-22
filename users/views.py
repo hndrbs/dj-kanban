@@ -2,13 +2,14 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from .forms import LoginForm, RegisterForm
 from django.contrib import messages
 from django.core import exceptions
 from django.db.models import Q
 from django import urls
 from .models import User
+from helpers import customer_render as render
 
 should_unauthenticated = user_passes_test(lambda user : not user.is_authenticated, "/", redirect_field_name=None)
 

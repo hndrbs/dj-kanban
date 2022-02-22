@@ -1,5 +1,7 @@
 import base64
 import os
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 class Helper:
   @staticmethod
@@ -17,3 +19,9 @@ class Helper:
     plain_string = str(id) + Helper.get_encryption_key()
     my_bytes = plain_string.encode('utf-8')
     return base64.b64encode(my_bytes).decode('utf-8')
+  
+
+def customer_render(request: HttpRequest, template: str, context: dict) -> HttpResponse:
+  if request.headers.get('HX-Request'):
+    return render(request, template, context)
+  return render(request, 'full_' + template, context)
