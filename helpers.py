@@ -23,5 +23,6 @@ class Helper:
 
 def customer_render(request: HttpRequest, template: str, context: dict) -> HttpResponse:
   if request.headers.get('HX-Request'):
-    return render(request, template, context)
-  return render(request, 'fragments/' + template, context)
+    template = 'fragments/' + template
+    
+  return render(request, template, context)
