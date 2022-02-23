@@ -14,6 +14,7 @@ urlpatterns = [
   path('boards/add/<str:encrypted_workspace_id>', bv.add_board, name='add-board'),
   path('boards/edit/<str:encrypted_workspace_id>/<int:board_id>', bv.edit_board_title, name='edit-board'),
   path('boards/<str:encrypted_workspace_id>', bv.fetch_all_boards, name='boards'),
-  path('cards/add/<str:encrypted_board_id>', cv.add_card, name='add-card')
+  path('cards/add/<str:encrypted_board_id>', cv.add_card, name='add-card'),
+  path('cards/edit/<str:encrypted_workspace_id>/<str:encrypted_board_id>/<str:encrypted_card_id>', cv.edit_card, name='edit-card')
 ]
 
