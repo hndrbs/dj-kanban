@@ -29,8 +29,7 @@
       <p class="card-text text-muted">{{ workspace.desc }}</p>
       <a
         hx-push-url="true"
-        hx-target="body"
-        hx-swap="outerHTML"
+        hx-target="#content"
         href="{% url 'boards' workspace.id|encrypt_id %}" 
         class="btn btn-primary btn-sm"
       >See workspace</a>

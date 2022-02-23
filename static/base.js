@@ -9,3 +9,6 @@ function clearMessage(){
     }, baseDelay + (incrementDelay * idx))
   })
 }
+
+
+// htmx.config.defaultFocusScroll = true

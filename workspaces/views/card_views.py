@@ -1,8 +1,8 @@
-from helpers import Helper
+from helpers import Helper, customer_render as render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.contrib import messages
 from django import urls
 # my modules
