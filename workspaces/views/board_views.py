@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import Q
 from django import urls
 # my modules
 from workspaces.contants import Constant as Const
@@ -104,12 +105,17 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id
     form = BoardForm(request.POST)
     try:
       if form.is_valid():
-        form.save()
-        
-        messages.success(request, f'successfully edit board')
-        return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
-      
-      messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
+        workspace_id = Helper.get_model_id(encrypted_workspace_id)
+        if not Board.objects.filter(Q(title=form.cleaned_data['title']) & Q(workspace_id=workspace_id)).exists():
+          board = Board.objects.get(id=board_id)
+          board.title = form.cleaned_data['title']
+          board.save()
+          messages.success(request, f'successfully edit board')
+          return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+        else:
+          messages.warning(request, "Board with this name already exists")
+      else:  
+        messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
       
     except (Workspace.DoesNotExist):
       messages.warning(request, Const.NOT_FOUND_MESSAGE)
