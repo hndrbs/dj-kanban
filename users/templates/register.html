@@ -1,3 +1,4 @@
+{% include 'messages.html' %}
 
 <div class="container-fluid">
   <div class="row align-items-center justify-content-center">
@@ -30,7 +31,6 @@
             <button type="submit" 
               class="btn btn-sm btn-secondary my-3"
               hx-post=""
-              hx-swap="outerHTML"
               hx-target="#content"
               hx-push-url="true"
             >Register</button>
@@ -40,8 +40,6 @@
               <a 
                 href="{% url 'login' %}"
                 hx-target="#content"
-                class="clickable text-primary"
-                hx-swap="innerHTML"
                 hx-push-url="true"
               >login</a>
             </p>

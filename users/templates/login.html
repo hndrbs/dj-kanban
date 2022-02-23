@@ -1,3 +1,4 @@
+{% include 'messages.html' %}
 
 <div class="container">
   <div class="row align-items-center justify-content-center">
@@ -21,18 +22,15 @@
               class="btn btn-sm btn-secondary my-3"
               hx-post=""
               hx-target="#content"
-              hx-swap="outerHTML"
             >Login</button>
           </form>
-          <div>
+          <div hx-boost="true">
             <p class="fs-6 text-muted">have not joined yet?
-              <span 
-                hx-get="{% url 'register' %}"
+              <a
+                href="{% url 'register' %}"
                 hx-target="#content"
-                class="clickable text-primary"
-                hx-swap="outerHTML"
                 hx-push-url="true">Join us
-              </span>
+              </a>
             </p>
           </div>
         </div>
