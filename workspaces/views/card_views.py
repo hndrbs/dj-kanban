@@ -7,8 +7,8 @@ from django.contrib import messages
 from django import urls
 # my modules
 from workspaces.contants import Constant as Const
-from workspaces.forms import  BoardForm, CardForm
-from workspaces.models import Board, Card, Workspace
+from workspaces.forms import  CardForm
+from workspaces.models import Board, Card
 
 
 @login_required
