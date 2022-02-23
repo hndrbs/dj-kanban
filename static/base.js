@@ -1,4 +1,4 @@
-function someFunction(){
+function clearMessage(){
   let baseDelay = 10000
   let incrementDelay = 1500
   let arrayOfAlerts = [].slice.call(document.querySelectorAll(".alert"))
@@ -9,5 +9,3 @@ function someFunction(){
     }, baseDelay + (incrementDelay * idx))
   })
 }
-
-someFunction()

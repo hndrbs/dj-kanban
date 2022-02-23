@@ -1,5 +1,5 @@
 <header class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="navigation">
-  <nav class="container-fluid" hx-boost="true">
+  <nav class="container-fluid" hx-boost="true" hx-target="#content">
     <a class="navbar-brand" href="/">Dj - Kanban</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,12 +8,10 @@
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav mb-0 d-flex w-100">
         <li class="nav-item me-auto">
-          <a 
+          <a
             class="nav-link text-light"
             href="{% url 'workspaces' %}"
-            hx-swap="outerHTML"
             hx-target="#content"
-            hx-select="#content"
           >Workspaces</a>
         </li>
         <li hx-boost="true" hx-target="body" class="nav-item">
