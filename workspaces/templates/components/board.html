@@ -13,12 +13,14 @@
         <li>
           <form method="post">
             {% csrf_token %}
-            <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
+            <input type="hidden" name="workspace_id" value="{{ workspace.id|encrypt_id }}">
+            <input type="hidden" name="board_id" value="{{ board.id|encrypt_id }}">
             <button
               type="submit" 
               class="btn btn-transparent text-muted"
-              hx-target="body"
-              hx-post="#"
+              hx-target="#content"
+              hx-post="{% url 'delete-board' %}"
+              hx-push-url="true"
             >delete</button>
           </form>
         </li>

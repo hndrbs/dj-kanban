@@ -6,3 +6,4 @@ class Constant:
   NOT_FOUND_BOARD = "we cannot find the board"
   NOT_FOUND_CARD = "we cannot find the card"
   WORKSPACES_URL = 'workspaces'
+  ALREADY_EXISTS_BOARD = "Board with this title and in this workspace already exists"

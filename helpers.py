@@ -22,7 +22,8 @@ class Helper:
   
 
 def customer_render(request: HttpRequest, template: str, context: dict) -> HttpResponse:
-  if request.headers.get('HX-Request'):
+
+  if  request.headers.get('HX-Request') and not request.headers.get('HX-Current-URL', '').__contains__('auth'):
     template = 'fragments/' + template
     
   return render(request, template, context)

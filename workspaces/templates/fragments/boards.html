@@ -7,11 +7,11 @@
     <div class="flex-fill"><h2 class="fs-4 text-start">{{ workspace.title }}</h2></div>
     <div hx-boost="true" hx-target="#content">
       <button class="btn btn-sm btn-primary mx-2" disabled>add member</button>
-      <a class="btn btn-sm btn-primary" href="{% url 'add-board' workspace.id|encrypt_id workspace.title %}">add board</a>
+      <a class="btn btn-sm btn-primary" href="{% url 'add-board' workspace.id|encrypt_id %}">add board</a>
     </div>
   </div>
 
-  <div class="d-flex justify-content-start container-fluid" id="board__container">
+  <div class="d-flex justify-content-start container-fluid p-0" id="board__container">
     {% for board in boards %}
       {% include 'components/board.html' with board=board cards=cards %}
     {% empty %}

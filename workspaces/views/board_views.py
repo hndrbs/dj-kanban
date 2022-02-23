@@ -40,10 +40,10 @@ def fetch_all_boards(request: HttpRequest, encrypted_workspace_id: str) -> HttpR
 
 @login_required
 @require_http_methods(["GET", "POST"])
-def add_board(request: HttpRequest, encrypted_workspace_id: str, workspace_title: str)-> HttpResponse:
+def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
   context = {
     'form': BoardForm(),
-    'title_form': f'Add board on {workspace_title}',
+    'title_form': f'Add board',
     'submit_button_name': f"Add Board"
   }
   
@@ -54,18 +54,22 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str, workspace_title
     form = BoardForm(request.POST)
     try:
       if form.is_valid():
-        workspace = Workspace.objects.get(id=Helper.get_model_id(encrypted_workspace_id))
-        existing_boards = Board.objects.filter(workspace=workspace)
-        Board.objects.create(
-          title=form.cleaned_data['title'],
-          workspace=workspace,
-          board_number=existing_boards.count() + 1
-        )
-        
-        messages.success(request, f'successfully add board on {workspace_title}')
-        return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
-      
-      messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
+        workspace_id = Helper.get_model_id(encrypted_workspace_id)
+        if not Board.objects.filter(Q(title=form.cleaned_data['title']) & Q(workspace_id=workspace_id)).exists():
+          workspace = Workspace.objects.get(id=Helper.get_model_id(encrypted_workspace_id))
+          existing_boards = Board.objects.filter(workspace=workspace)
+          Board.objects.create(
+            title=form.cleaned_data['title'],
+            workspace=workspace,
+            board_number=existing_boards.count() + 1
+          )
+          
+          messages.success(request, f'successfully add board')
+          return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+        else:
+          messages.warning(request, Const.ALREADY_EXISTS_BOARD)
+      else:
+        messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
       
     except (Workspace.DoesNotExist, Board.DoesNotExist):
       messages.warning(request, Const.NOT_FOUND_MESSAGE)
@@ -113,7 +117,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id
           messages.success(request, f'successfully edit board')
           return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
         else:
-          messages.warning(request, "Board with this name already exists")
+          messages.warning(request, Const.ALREADY_EXISTS_BOARD)
       else:  
         messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
       
@@ -127,4 +131,27 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id
     context['form'] = form
     return render(request, 'form_board.html', context)
   
+
+@login_required
+@require_http_methods(['POST'])
+def delete_board(request: HttpRequest) -> HttpResponse:
+  try:
+    encrypted_board_id = request.POST.get('board_id')
+    encrypted_workspace_id = request.POST.get('workspace_id')
+
+    board_id = Helper.get_model_id(encrypted_board_id)
+    workspace_id = Helper.get_model_id(encrypted_workspace_id)
+    
+    board = Board.objects.filter(Q(id=board_id) & Q(workspace_id=workspace_id))
+
+    if board.exists():
+      board.delete()
+      return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+    
+    messages.warning(request, Const.NOT_FOUND_BOARD)
   
+  except Exception as err:
+    messages.error(request, str(err))
+    messages.error(request, Const.EXCEPTION_MESSAGE)
+  
+  return redirect(urls.reverse('workspaces'))
