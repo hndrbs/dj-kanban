@@ -1,0 +1,9 @@
+<div class="d-flex justify-content-end p-2" hx-boost="true" hx-target="body">
+  <a class="btn-sm btn btn-primary" href="{% url 'add-workspace' %}">Add workspace</a>
+</div>
+
+<div class="row py-3 px-2">
+  {% for workspace in workspaces %}
+      {% include 'components/workspace.html' with workspace=workspace %}
+  {% endfor %}
+</div>

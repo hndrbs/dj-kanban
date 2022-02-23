@@ -1,0 +1,21 @@
+{% load workspace_template_tags %}
+
+<div class="d-flex flex-column">
+  <div class="d-flex justify-content-end py-3">
+    <div class="flex-fill"><h2 class="fs-4 text-start">{{ workspace.title }}</h2></div>
+    <div hx-boost="true" hx-target="body">
+      <button class="btn btn-sm btn-primary mx-2" disabled>add member</button>
+      <a class="btn btn-sm btn-primary" href="{% url 'add-board' workspace.id|encrypt_id workspace.title %}">add board</a>
+    </div>
+  </div>
+
+  <div class="flex-fill d-flex" id="board__container">
+    {% for board in boards %}
+      {% include 'components/board.html' with board=board cards=cards %}
+    {% empty %}
+      <span class="w-100">
+        <p class="text-center">whoaaa, there is no board here, let's add some</p>           
+      </span>
+    {% endfor %}
+  </div>
+</div>

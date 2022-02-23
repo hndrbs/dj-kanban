@@ -1,41 +1,9 @@
-{% include 'messages.html' %}
+{% extends 'base.html' %}
 
-<div class="container">
-  <div class="row align-items-center justify-content-center">
-    <div class="col-12 col-md-6 mt-5">
-      <div class="card px-5 py-5 shadow-sm">
-        <div class="text-center">
-          <h1>Login</h1>
-          <form method="post">
-            {% csrf_token %}
-            {% for field in form %}
-              <div class="form-group py-2">
-                <div class="mb-1">
-                  <label>{{ field.label }}</label>
-                </div>
-                {{ field }}
-              </div>
-            {% endfor %}
-              
-            <button 
-              type="submit"
-              class="btn btn-sm btn-secondary my-3"
-              hx-post=""
-              hx-target="#content"
-            >Login</button>
-          </form>
-          <div hx-boost="true">
-            <p class="fs-6 text-muted">have not joined yet?
-              <a
-                href="{% url 'register' %}"
-                hx-target="#content"
-                hx-push-url="true">Join us
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{% block navigation %}
+{% endblock navigation %}
+
+{% block content %}
+  {% include 'login.html' %}
+{% endblock content %}
   

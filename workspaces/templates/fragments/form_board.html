@@ -1,0 +1,31 @@
+
+<div class="container">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-12 col-md-6 mt-5">
+      <div class="card px-5 py-4 shadow-sm">
+        <div class="text-center">
+          <h1 class="fs-4">{{ title_form }}</h1>
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-group py-2">
+                <div class="mb-1">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+                {{ field }}
+              </div>
+            {% endfor %}
+            <button 
+              hx-post=""
+              hx-target="body"
+              type="submit"
+              class="btn btn-sm btn-secondary my-3"
+              hx-push-url="true"
+            >{{ submit_button_name }}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
