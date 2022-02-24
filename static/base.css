@@ -1,0 +1,17 @@
+.clickable:hover {
+  cursor: pointer;
+}
+
+#board__container {
+  overflow-x: auto;
+  width: 100%;
+  height: 450px;
+}
+
+.board {
+  overflow-y: auto;
+  max-height: 430px;
+  height: 3500px;
+  max-width: 350px;
+  min-width: 350px;
+}

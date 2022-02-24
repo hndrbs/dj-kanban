@@ -1,0 +1,52 @@
+
+{% include 'messages.html' %}
+<div class="container-fluid">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-12 col-md-6">
+      <div class="card px-5 py-5 shadow-sm">
+        <div class="text-center">
+          <h5 class="mt-3">Join Dj - Kanban<br/>
+          <small class="mb-3 text-muted">and manage your project in our web app for <strong>free</strong> </small>
+
+          <div class="text-danger">
+            {% for err in  form.non_field_errors %}
+              <p class="fs-6"><small>{{ err }}</small></p>
+            {% endfor %}
+          </div>
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-group py-2">
+                <div class="mb-1 fs-6">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {{ field }}
+                  
+                  {% for err in field.errors %}
+                    <p class="fs-6 text-danger"><small>{{ err }}</small></p>
+                  {% endfor %}
+                    
+                </div>
+              </div>
+            {% endfor %}
+            <button type="submit" 
+              class="btn btn-sm btn-secondary my-3"
+              hx-post=""
+              hx-target="body"
+              hx-push-url="true"
+            >Register</button>
+          </form>
+          <div hx-boost="true">
+            <p class="fs-6 text-muted">already joined? 
+              <a 
+                href="{% url 'login' %}"
+                hx-target="body"
+                hx-push-url="true"
+              >login</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+  

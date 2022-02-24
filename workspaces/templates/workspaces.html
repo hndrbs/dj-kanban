@@ -1,45 +1,6 @@
 {% extends 'base.html' %}
-
-{% block title %}
-  Dj-Kanban | My Workspaces
-{% endblock title %}
-
-{% load workspace_template_tags %}
-
+  
 {% block content %}
-  <div class="d-flex justify-content-end p-2">
-    <a class="btn-sm btn btn-primary" href="{% url 'add-workspace' %}">Add workspace</a>
-  </div>
-  <div class="row pt-3 px-2">
-  {% for workspace in workspaces %}
-      <div class="col-lg-4 col-12 mt-1">
-        <div class="card">
-          <div class="d-flex justify-content-end pe-2 py-0 my-0 dropdown">
-              <button class="btn btn-transparent btn-sm" type="button" id="dropdown-{{ workspace.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-three-dots" ></i>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
-                <li>
-                  <a href="{% url 'edit-workspace' workspace.id|encrypt_id %}" class="dropdown-item">edit</a>
-                </li>
-                <li>
-                  <form action="{% url 'deactivate-workspace' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
-                    <button type="submit" class="btn btn-transparent text-muted">archive</button>
-                  </form>
-                </li>
-              </ul>
-          </div>
-          <div class="card-body pt-0">
-            <h5 class="card-title">{{ workspace.title }}</h5>
-            <p class="card-text text-muted">{{ workspace.desc }}</p>
-            <a href="{% url 'boards' workspace.id|encrypt_id %}" class="btn btn-primary btn-sm">See workspace</a>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-    
+  {% include 'fragments/workspaces.html' %}
 {% endblock content %}
   
