@@ -11,7 +11,6 @@ from workspaces.contants import Constant as Const
 from workspaces.forms import  CardForm
 from workspaces.models import Board, Card
 
-
 @login_required
 @require_http_methods(['GET', 'POST'])
 def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
@@ -32,8 +31,7 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
     except Exception as err:
       messages.error(request, str(err))
       messages.error(request, Const.EXCEPTION_MESSAGE)
-    
-    
+
     return redirect(urls.reverse('workspaces'))
   
   else:
@@ -87,4 +85,54 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
     
     
     return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+  
+  else:
+    try:
+      bounded_card_form = CardForm(request.POST)
+      if bounded_card_form.is_valid():
+        new_title = bounded_card_form.cleaned_data['title']
+        workspace_id = Helper.get_model_id(encrypted_workspace_id)
+        cards = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id) & Q(board__workspace_id=workspace_id))
+        if cards.exists():
+          if not Card.objects.filter(Q(title=new_title) & Q(board__workspace_id=workspace_id)).exists():
+            card = cards.first()
+            card.title = bounded_card_form.cleaned_data['title']
+            card.target_date = bounded_card_form.cleaned_data['target_date']
+            card.save()
+            return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+          else:
+            messages.warning(request, Const.ALREADY_EXISTS_CARD)
+        else:
+          messages.warning(request, Const.NOT_FOUND_CARD)      
+      else:
+        messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
+
+    except Exception as err:
+      messages.error(request, str(err))
+      messages.error(request, Const.EXCEPTION_MESSAGE)
+    
+    return redirect(urls.reverse('edit-card', args=[encrypted_workspace_id, encrypted_board_id, encrypted_card_id]))
+
+
+@login_required
+@require_http_methods(['POST'])
+def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
+  data = request.POST
+  board_id_from = Helper.get_model_id(data.get('board_from'))
+  board_id_to = Helper.get_model_id(data.get('board_to'))
+  card_id = Helper.get_model_id(data.get('card_id'))
+  workspace_id = Helper.get_model_id(data.get('workspace_id'))
+
+  current_card = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id_from))
+  is_card_exist_in_this_board = current_card.exists()
+  is_next_board_exist = Board.objects.filter(Q(id=board_id_to) & Q(workspace_id=workspace_id))
+  
+  if is_card_exist_in_this_board and is_next_board_exist:
+    card = current_card.first()
+    card.board_id = board_id_to
+    card.save()
+    return redirect(urls.reverse('boards', args=[data.get('workspace_id')]))
+  else:
+    messages.warning(request, Const.INVALID_MOVE_CARD)
+    return redirect(urls.reverse('boards', args=[data.get('workspace_id')]))
   

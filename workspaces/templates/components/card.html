@@ -1,7 +1,34 @@
 {% load workspace_template_tags %}
 <div class="card my-2">
-  <div class="card-header">
-    <div class="d-flex justify-content-end pe-2 py-0 my-0 dropdown">
+  <div class="card-header d-flex">
+    <div class="d-flex justify-content-between">
+      <form method="post" hx-target="#content" hx-post="{% url 'move-card' %}">
+        {% csrf_token %}
+        <input type="hidden" name="workspace_id" value="{{ workspace.id|encrypt_id }}">
+        <input type="hidden" name="board_from" value="{{ board.id|encrypt_id }}">
+        <input type="hidden" name="board_to" value="{{ board.id|add:-1|encrypt_id }}">
+        <input type="hidden" name="card_id" value="{{ card.id|encrypt_id }}">
+        <button 
+          type="submit"
+          class="btn btn-md btn-transparent"
+          hx-post="{% url 'move-card' %}"
+        ><h5><i class="bi bi-arrow-left-circle-fill"></i></h5></button>
+      </form>
+
+      <form method="post" hx-target="#content" hx-post="{% url 'move-card' %}">
+        {% csrf_token %}
+        <input type="hidden" name="workspace_id" value="{{ workspace.id|encrypt_id }}">
+        <input type="hidden" name="board_from" value="{{ board.id|encrypt_id }}">
+        <input type="hidden" name="board_to" value="{{ board.id|add:1|encrypt_id }}">
+        <input type="hidden" name="card_id" value="{{ card.id|encrypt_id }}">
+        <button 
+          type="submit"
+          class="btn btn-md btn-transparent"
+        ><h5><i class="bi bi-arrow-right-circle-fill"></i></h5></button>
+      </form>
+      
+    </div>
+    <div class="d-flex flex-fill justify-content-end pe-2 py-0 my-0 dropdown">
       <button class="btn btn-transparent btn-sm text-dark" type="button" id="dropdown-{{ board.id }}" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots" ></i>
       </button>

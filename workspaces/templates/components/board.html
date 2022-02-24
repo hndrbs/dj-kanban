@@ -6,7 +6,7 @@
       <button class="btn btn-transparent btn-sm text-white" type="button" id="dropdown-{{ board.id }}" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots" ></i>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
+      <ul class="dropdown-menu" aria-labelledby="dropdown-{{ board.id }}">
         <li hx-boost="true" hx-target="#content">
           <a href="{% url 'edit-board' board.workspace_id|encrypt_id board.id %}" class="dropdown-item">edit</a>
         </li>
