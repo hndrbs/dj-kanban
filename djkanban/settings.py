@@ -24,12 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-if DEBUG:
-  dotenv.read_dotenv()
+
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -89,16 +88,16 @@ WSGI_APPLICATION = 'djkanban.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DB_DEV = {
-#   'ENGINE': 'django.db.backends.sqlite3',
-#   'NAME': BASE_DIR / 'db.sqlite3',
-# }
+# DB_DEV = 
 
 # DB_PROD = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 
-# DATABASES = {
-#   'default':  DB_DEV if DEBUG else DB_PROD
-# }
+DATABASES = {
+  'default':  {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': BASE_DIR / 'db.sqlite3',
+  }
+}
 
 
 # Password validation
@@ -148,7 +147,3 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-import django_heroku
-
-django_heroku.settings(locals())
