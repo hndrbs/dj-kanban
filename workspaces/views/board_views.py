@@ -57,11 +57,9 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
         workspace_id = Helper.get_model_id(encrypted_workspace_id)
         if not Board.objects.filter(Q(title=form.cleaned_data['title']) & Q(workspace_id=workspace_id)).exists():
           workspace = Workspace.objects.get(id=Helper.get_model_id(encrypted_workspace_id))
-          existing_boards = Board.objects.filter(workspace=workspace)
           Board.objects.create(
             title=form.cleaned_data['title'],
-            workspace=workspace,
-            board_number=existing_boards.count() + 1
+            workspace=workspace
           )
           
           messages.success(request, f'successfully add board')

@@ -38,11 +38,9 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
     bounded_card_form = CardForm(request.POST)
     try:
       if bounded_card_form.is_valid():
-        num_of_card = Card.objects.filter(board_id=board_id).count()
         Card.objects.create(
           title = bounded_card_form.cleaned_data['title'],
           target_date = bounded_card_form.cleaned_data['target_date'],
-          card_number = num_of_card + 1,
           board_id = board_id
         )
         board = Board.objects.get(id=board_id)
