@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,10 +86,6 @@ WSGI_APPLICATION = 'djkanban.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# DB_DEV = 
-
-# DB_PROD = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 
 DATABASES = {
   'default':  {
