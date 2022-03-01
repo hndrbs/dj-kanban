@@ -1,12 +1,10 @@
-import base64
 from django.db import models
 # Create your models here.
-from helpers import Helper
 
 class Workspace(models.Model):
   class Meta:
     db_table = 'Workspaces'
-    ordering = ['-id', '-updated_at', '-created_at']
+    ordering = ['-updated_at', '-created_at']
   
   id = models.BigAutoField(primary_key=True)
   title = models.CharField(max_length=100)
@@ -22,7 +20,7 @@ class Workspace(models.Model):
 class Board(models.Model):
   class Meta:
     db_table = 'Boards'
-    ordering = ['board_number', 'id']
+    ordering = ['id']
   
   id = models.BigAutoField(primary_key=True)
   title = models.CharField(max_length=100)
@@ -30,7 +28,6 @@ class Board(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
   workspace = models.ForeignKey('workspaces.Workspace', on_delete=models.CASCADE)
-  board_number = models.IntegerField()
 
   def __str__(self) -> str:
       return self.title
@@ -38,7 +35,7 @@ class Board(models.Model):
 class Card(models.Model):
   class Meta:
     db_table = 'Cards'
-    ordering = ['-id', '-updated_at', '-created_at']
+    ordering = ['-updated_at', '-created_at']
   
   id = models.BigAutoField(primary_key=True)
   title = models.CharField(max_length=100)
@@ -47,14 +44,13 @@ class Card(models.Model):
   updated_at = models.DateTimeField(auto_now=True)
   target_date = models.DateField()
   board = models.ForeignKey('workspaces.Board', on_delete=models.CASCADE)
-  card_number = models.IntegerField()
 
   def __str__(self) -> str:
       return self.title
 class Assignment(models.Model):
   class Meta:
     db_table = 'Assignments'
-    ordering = ['-id', '-updated_at', '-created_at']
+    ordering = ['-updated_at', '-created_at']
   
   id = models.BigAutoField(primary_key=True)
   is_active = models.BooleanField(default=True)
