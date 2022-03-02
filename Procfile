@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn djkanban/wsgi.py
+web: gunicorn djkanban.wsgi
