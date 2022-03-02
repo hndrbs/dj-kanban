@@ -1,7 +1,7 @@
 from django import template
-from helpers import Helper
+from helpers import encrypt_id
 
 register = template.Library()
 
-register.filter('encrypt_id', Helper.encrypt_id)
+register.filter('encrypt_id', encrypt_id)
 

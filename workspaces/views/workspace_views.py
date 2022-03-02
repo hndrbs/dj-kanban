@@ -6,9 +6,12 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.db.models import Q
 from django import urls
-from helpers import Helper, customer_render as render
+from helpers import (
+  customer_render as render,
+  get_model_id
+)
 # my modules
-from workspaces.contants import Constant as Const
+from constants import Constant as Const
 from workspaces.forms import WorkspaceForm
 from workspaces.models import Workspace, WorkspaceMember
 
@@ -82,7 +85,7 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
   
   if request.method == "GET":
     try:
-      id = Helper.get_model_id(encrypted_workspace_id)
+      id = get_model_id(encrypted_workspace_id)
       workspace = Workspace.objects.get(id=id)
       form = WorkspaceForm(instance=workspace)
       context.update({ 'form': form })
@@ -97,7 +100,7 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
       return redirect(urls.reverse(Const.WORKSPACES_URL))
   else:
     try:
-      id = Helper.get_model_id(encrypted_workspace_id)
+      id = get_model_id(encrypted_workspace_id)
       workspace = Workspace.objects.get(id=id)
       form = WorkspaceForm(request.POST)
       if form.is_valid():
@@ -136,7 +139,7 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
 def deactivate_workspace(request: HttpRequest) -> HttpResponse:
   try:
     encrypted_id = request.POST.get('id')
-    id = Helper.get_model_id(encrypted_id)
+    id = get_model_id(encrypted_id)
     workspace = Workspace.objects.get(id=id)
     workspace.is_active = False
     workspace.save()

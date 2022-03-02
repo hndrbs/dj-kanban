@@ -1,4 +1,8 @@
-from helpers import Helper, customer_render as render
+from helpers import (
+    customer_render as render,
+    get_model_id,
+    encrypt_id
+)
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
@@ -7,7 +11,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django import urls
 # my modules
-from workspaces.contants import Constant as Const
+from constants import Constant as Const
 from workspaces.forms import  CardForm
 from workspaces.models import Board, Card
 
@@ -19,7 +23,7 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
     'title_form': f'Add card',
     'submit_button_name': f"Add card"
   }
-  board_id = Helper.get_model_id(encrypted_board_id)
+  board_id = get_model_id(encrypted_board_id)
   
   if request.method == 'GET':
     try:
@@ -44,7 +48,7 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
           board_id = board_id
         )
         board = Board.objects.get(id=board_id)
-        return redirect(urls.reverse('boards', args=[Helper.encrypt_id(board.workspace_id)]))
+        return redirect(urls.reverse('boards', args=[encrypt_id(board.workspace_id)]))
 
       messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
     
@@ -65,8 +69,8 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
     'title_form': f'Edit card',
     'submit_button_name': f"Edit card"
   }
-  card_id = Helper.get_model_id(encrypted_card_id)
-  board_id = Helper.get_model_id(encrypted_board_id)
+  card_id = get_model_id(encrypted_card_id)
+  board_id = get_model_id(encrypted_board_id)
   
   if request.method == 'GET':
     try:
@@ -89,7 +93,7 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
       bounded_card_form = CardForm(request.POST)
       if bounded_card_form.is_valid():
         new_title = bounded_card_form.cleaned_data['title']
-        workspace_id = Helper.get_model_id(encrypted_workspace_id)
+        workspace_id = get_model_id(encrypted_workspace_id)
         cards = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id) & Q(board__workspace_id=workspace_id))
         if cards.exists():
           if not Card.objects.filter(Q(title=new_title) & Q(board__workspace_id=workspace_id)).exists():
@@ -116,7 +120,7 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
 @require_http_methods(['POST'])
 def delete_card(request: HttpRequest, encrypted_workspace_id: str) -> HttpResponse:
   try:
-    card_id = Helper.get_model_id(request.POST.get('card_id'))
+    card_id = get_model_id(request.POST.get('card_id'))
     Card.objects.filter(id=card_id).delete()
     messages.success(request, 'successfully to delete card')
 
@@ -131,10 +135,10 @@ def delete_card(request: HttpRequest, encrypted_workspace_id: str) -> HttpRespon
 @require_http_methods(['POST'])
 def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
   data = request.POST
-  board_id_from = Helper.get_model_id(data.get('board_from'))
-  board_id_to = Helper.get_model_id(data.get('board_to'))
-  card_id = Helper.get_model_id(data.get('card_id'))
-  workspace_id = Helper.get_model_id(data.get('workspace_id'))
+  board_id_from = get_model_id(data.get('board_from'))
+  board_id_to = get_model_id(data.get('board_to'))
+  card_id = get_model_id(data.get('card_id'))
+  workspace_id = get_model_id(data.get('workspace_id'))
 
   current_card = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id_from))
   is_card_exist_in_this_board = current_card.exists()

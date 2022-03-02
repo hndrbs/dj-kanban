@@ -7,7 +7,7 @@
           <i class="bi bi-three-dots" ></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
-          <li hx-boost="true" hx-target="body">
+          <li hx-boost="true" hx-target="#content">
             <a href="{% url 'edit-workspace' workspace.id|encrypt_id %}" class="dropdown-item">edit</a>
           </li>
           <li>
