@@ -1,3 +1,3 @@
-Dj - Kanban
+# Dj - Kanban
 
-SPA-ish kanban built using [Django](https://www.djangoproject.com/) & [HTMX](https://htmx.org/)
+SPA-ish kanban built using Django, HTMX and AlpineJS 

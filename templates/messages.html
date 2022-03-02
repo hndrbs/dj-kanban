@@ -1,0 +1,24 @@
+{% if messages %}
+  
+<div class="position-relative">
+  <div class="w-50 position-fixed start-50" style="z-index: 999;">
+    {% for msg in messages %}
+      {% if msg.tags == 'error' %}
+          <div class="alert alert-danger text-center my-3 alert-dismissible fade show shadow" role="alert">
+            <span>{{ msg }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      {% else %}
+          <div class="alert alert-{{ msg.tags }} text-center my-3 alert-dismissible fade show shadow" role="alert">
+            <span>{{ msg }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>clearMessage()</script>
+
+{% endif %}
+
