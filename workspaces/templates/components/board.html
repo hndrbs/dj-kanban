@@ -8,7 +8,7 @@
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdown-{{ board.id }}">
         <li hx-boost="true" hx-target="#content">
-          <a href="{% url 'edit-board' board.workspace_id|encrypt_id board.id %}" class="dropdown-item">edit</a>
+          <a href="{% url 'edit-board' board.workspace_id|encrypt_id board.id|encrypt_id %}" class="dropdown-item">edit</a>
         </li>
         <li>
           <form method="post">

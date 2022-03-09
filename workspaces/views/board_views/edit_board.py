@@ -3,11 +3,14 @@ from .importer import *
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id: int) -> HttpResponse:
+def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypted_board_id: str) -> HttpResponse:
   context = {
-    'title_form': f'Edit Board',
-    'submit_button_name': f"Edit Board"
+    'title_form': 'Edit Board',
+    'submit_button_name': 'Edit Board',
+    'encrypted_workspace_id': encrypted_workspace_id
   }
+
+  board_id = get_model_id(encrypted_board_id)
   
   if request.method == 'GET':
     try:
@@ -31,7 +34,9 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id
         workspace_id = get_model_id(encrypted_workspace_id)
         title = form.cleaned_data['title']
         
-        if not Board.objects.filter(Q(title=title) & Q(workspace_id=workspace_id)).exists():
+        if not Board.objects\
+            .filter(Q(title=title) & Q(workspace_id=workspace_id))\
+            .exists():
           board = Board.objects.get(id=board_id)
           board.title = title
           board.save()
