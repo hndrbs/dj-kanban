@@ -9,7 +9,6 @@ def delete_card(request: HttpRequest, encrypted_workspace_id: str) -> HttpRespon
     messages.success(request, 'successfully to delete card')
 
   except Exception as err:
-    messages.error(request, str(err))
-    messages.error(request, Const.EXCEPTION_MESSAGE)
+    exception_message_dispatcher(request, err)
 
   return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))

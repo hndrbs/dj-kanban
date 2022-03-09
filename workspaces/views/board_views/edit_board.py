@@ -17,7 +17,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id
       return render(request, 'form_board.html', context)
     
     except Board.DoesNotExist:
-      messages.warning(request, Const.NOT_FOUND_MESSAGE)
+      messages.warning(request, Const.NOT_FOUND_BOARD)
     
     except Exception as err:
       exception_message_dispatcher(request, err)
@@ -45,7 +45,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, board_id
         messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
       
     except (Workspace.DoesNotExist):
-      messages.warning(request, Const.NOT_FOUND_MESSAGE)
+      messages.warning(request, Const.NOT_FOUND_WORKSPACE)
     
     except Exception as err:
       exception_message_dispatcher(request, err)

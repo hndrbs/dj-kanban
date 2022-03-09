@@ -5,8 +5,8 @@ from .importer import *
 def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
   context = {
     'form': BoardForm(),
-    'title_form': f'Add board',
-    'submit_button_name': f"Add Board"
+    'title_form': 'Add board',
+    'submit_button_name': 'Add Board'
   }
   
   if request.method == 'GET':
@@ -32,9 +32,9 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
       else:
         messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
       
-    except (Workspace.DoesNotExist, Board.DoesNotExist):
-      messages.warning(request, Const.NOT_FOUND_MESSAGE)
-    
+    except Board.DoesNotExist:
+      messages.warning(request, Const.NOT_FOUND_BOARD)
+
     except Exception as err:
       exception_message_dispatcher(request, err)
     

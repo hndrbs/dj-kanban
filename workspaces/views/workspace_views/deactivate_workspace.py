@@ -12,10 +12,9 @@ def deactivate_workspace(request: HttpRequest) -> HttpResponse:
     messages.success(request, "successfully archive your workspace")
     
   except Workspace.DoesNotExist:
-    messages.warning(request, Const.NOT_FOUND_MESSAGE)
+    messages.warning(request, Const.NOT_FOUND_WORKSPACE)
 
   except Exception as err:
-    messages.error(str(err))
-    messages.error(request, Const.EXCEPTION_MESSAGE)
+    exception_message_dispatcher(request, err)
   
-  return redirect(urls.reverse(Const.WORKSPACES_URL))
+  return redirect(urls.reverse('workspaces'))

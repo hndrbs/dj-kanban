@@ -31,7 +31,7 @@ def add_workspace(request: HttpRequest):
             workspace=new_workspace
           )
           messages.success(request, "successfully save new workspace")
-          return redirect(urls.reverse(Const.WORKSPACES_URL))
+          return redirect(urls.reverse('workspaces'))
         
         else:
           messages.warning(request, "Looks like workspace with this title already exists")
@@ -40,9 +40,7 @@ def add_workspace(request: HttpRequest):
         messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
       
     except Exception as err:
-      messages.error(request, str(err))
-      # messages.error(request, "something went wrong, you may try again or if error persists, cantact us")
-      messages.error(request, Const.EXCEPTION_MESSAGE)
+      exception_message_dispatcher(request, err)
       
     context['form'] = form
     return render(request, 'form_workspace.html', context)

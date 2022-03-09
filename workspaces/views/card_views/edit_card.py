@@ -21,8 +21,7 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
     
       messages.warning(request, Const.NOT_FOUND_BOARD)
     except Exception as err:
-      messages.error(request, str(err))
-      messages.error(request, Const.EXCEPTION_MESSAGE)
+      exception_message_dispatcher(request, err)
 
     return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
   

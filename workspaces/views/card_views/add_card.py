@@ -6,21 +6,20 @@ from .importer import *
 def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
   context = {
     'form': CardForm(),
-    'title_form': f'Add card',
-    'submit_button_name': f"Add card"
+    'title_form': 'Add card',
+    'submit_button_name': 'Add card'
   }
   board_id = get_model_id(encrypted_board_id)
   
   if request.method == 'GET':
     try:
       if Board.objects.filter(id=board_id).exists():
-        # context['form'] = BoardForm(instance=boards.first())
         return render(request, 'form_card.html', context)
     
       messages.warning(request, Const.NOT_FOUND_BOARD)
+
     except Exception as err:
-      messages.error(request, str(err))
-      messages.error(request, Const.EXCEPTION_MESSAGE)
+      exception_message_dispatcher(request, err)
 
     return redirect(urls.reverse('workspaces'))
   
@@ -39,8 +38,7 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
       messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
     
     except Exception as err:
-      messages.error(request, str(err))
-      messages.error(request, Const.EXCEPTION_MESSAGE)
+      exception_message_dispatcher(request, err)
     
     context['form'] = bounded_card_form
     
