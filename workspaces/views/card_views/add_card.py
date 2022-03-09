@@ -33,6 +33,7 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
           board_id = board_id
         )
         board = Board.objects.get(id=board_id)
+        messages.success(request, "Sucessfully to add a card")
         return redirect(urls.reverse('boards', args=[encrypt_id(board.workspace_id)]))
 
       messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
