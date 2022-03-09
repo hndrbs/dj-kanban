@@ -16,6 +16,13 @@
                 {{ field }}
               </div>
             {% endfor %}
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-dark my-3"
+              hx-target="#content"
+              hx-get="/"
+              hx-push-url="true"
+            >Cancel</button>
             <button 
               type="submit"
               class="btn btn-sm btn-secondary my-3"

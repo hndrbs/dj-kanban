@@ -6,7 +6,8 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
   context = {
     'form': BoardForm(),
     'title_form': 'Add board',
-    'submit_button_name': 'Add Board'
+    'submit_button_name': 'Add Board',
+    'encrypted_workspace_id': encrypted_workspace_id
   }
   
   if request.method == 'GET':
