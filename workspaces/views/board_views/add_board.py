@@ -26,7 +26,7 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
           workspace = Workspace.objects.get(id=get_model_id(encrypted_workspace_id))
           Board.objects.create(title=title, workspace=workspace)
           
-          messages.success(request, f'successfully add board')
+          messages.success(request, f'Successfully to add a board')
           return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
         else:
           messages.warning(request, Const.ALREADY_EXISTS_BOARD)

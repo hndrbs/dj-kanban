@@ -38,6 +38,7 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
             card.title = bounded_card_form.cleaned_data['title']
             card.target_date = bounded_card_form.cleaned_data['target_date']
             card.save()
+            messages.success(request, "Successfully to edit a card")
             return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
           else:
             messages.warning(request, Const.ALREADY_EXISTS_CARD)
@@ -47,7 +48,6 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
         messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
 
     except Exception as err:
-      messages.error(request, str(err))
-      messages.error(request, Const.EXCEPTION_MESSAGE)
+      exception_message_dispatcher(request, err)
     
     return redirect(urls.reverse('edit-card', args=[encrypted_workspace_id, encrypted_board_id, encrypted_card_id]))

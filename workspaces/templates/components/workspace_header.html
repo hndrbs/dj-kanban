@@ -1,0 +1,24 @@
+{% load workspace_template_tags %}
+
+<div class="d-flex justify-content-end pe-2 py-0 my-0 dropdown">
+  <button class="btn btn-transparent btn-sm" type="button" id="dropdown-{{ workspace.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-three-dots" ></i>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
+    <li hx-boost="true" hx-target="#content">
+    <a href="{% url 'edit-workspace' workspace.id|encrypt_id %}" class="dropdown-item">edit</a>
+    </li>
+    <li>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
+      <button
+      type="submit" 
+      class="btn btn-transparent text-muted"
+      hx-target="#content"
+      hx-post="{% url 'deactivate-workspace' %}"
+      >archive</button>
+    </form>
+    </li>
+  </ul>
+</div>

@@ -40,7 +40,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
           board = Board.objects.get(id=board_id)
           board.title = title
           board.save()
-          messages.success(request, f'successfully edit board')
+          messages.success(request, f'successfully to edit a board')
           return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
         
         else:
