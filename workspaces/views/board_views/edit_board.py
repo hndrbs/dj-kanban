@@ -1,6 +1,5 @@
 from .importer import *
 
-
 @login_required
 @require_http_methods(['GET', 'POST'])
 def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypted_board_id: str) -> HttpResponse:
@@ -35,8 +34,11 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
         title = form.cleaned_data['title']
         
         if not Board.objects\
-            .filter(Q(title=title) & Q(workspace_id=workspace_id))\
-            .exists():
+            .filter(
+              Q(title=title) 
+              & Q(workspace_id=workspace_id) 
+              & ~Q(id=board_id)
+            ).exists():
           board = Board.objects.get(id=board_id)
           board.title = title
           board.save()

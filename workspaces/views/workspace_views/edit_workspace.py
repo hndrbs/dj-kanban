@@ -34,8 +34,13 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
         title = form.cleaned_data['title']
         user = request.user
         
-        if not Workspace.objects.filter(Q(title=title) & Q(owner=user) & ~Q(id=id)).exists():
-        
+        if not Workspace.objects\
+          .filter(
+            Q(title=title)
+            & Q(owner=user)
+            & ~Q(id=id)
+          ).exists():
+
           workspace.title = form.cleaned_data['title']
           workspace.desc = form.cleaned_data['desc']
           workspace.save()
