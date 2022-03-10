@@ -5,7 +5,8 @@ from .importer import *
 def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpResponse:
   context = {
     'submit_button_name': 'Edit Workspace',
-    'title_form': 'Edit Workspace'
+    'title_form': 'Edit Workspace',
+    'cancel_url': urls.reverse('workspaces')
   }
   
   if request.method == "GET":
@@ -14,7 +15,7 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
       workspace = Workspace.objects.get(id=id)
       form = WorkspaceForm(instance=workspace)
       context.update({ 'form': form })
-      return render(request, 'form_workspace.html', context)
+      return render(request, 'common_form.html', context)
     
     except Workspace.DoesNotExist:
       messages.warning(request, Const.NOT_FOUND_WORKSPACE)
@@ -62,4 +63,4 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
     
     context.update({'form': form})
     
-    return render(request, 'form_workspace.html', context)
+    return render(request, 'common_form.html', context)

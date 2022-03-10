@@ -6,7 +6,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
   context = {
     'title_form': 'Edit Board',
     'submit_button_name': 'Edit Board',
-    'encrypted_workspace_id': encrypted_workspace_id
+    'cancel_url': urls.reverse('boards', args=[encrypted_workspace_id])
   }
 
   board_id = get_model_id(encrypted_board_id)
@@ -16,7 +16,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
       board = Board.objects.get(id=board_id)
       context['form'] = BoardForm(instance=board)
       
-      return render(request, 'form_board.html', context)
+      return render(request, 'common_form.html', context)
     
     except Board.DoesNotExist:
       messages.warning(request, Const.NOT_FOUND_BOARD)
@@ -58,4 +58,4 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
       exception_message_dispatcher(request, err)
     
     context['form'] = form
-    return render(request, 'form_board.html', context)
+    return render(request, 'common_form.html', context)
