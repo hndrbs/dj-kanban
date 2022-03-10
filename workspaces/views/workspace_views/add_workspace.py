@@ -6,11 +6,12 @@ def add_workspace(request: HttpRequest):
   context = {
     'form': WorkspaceForm(),
     'submit_button_name': 'Add Workspace',
-    'title_form': 'Add Workspace'
+    'title_form': 'Add Workspace',
+    'cancel_url': urls.reverse('workspaces')
   }
   
   if request.method == "GET":
-    return render(request, 'form_workspace.html', context)
+    return render(request, 'common_form.html', context)
 
   else:
     form = WorkspaceForm(request.POST)
@@ -43,4 +44,4 @@ def add_workspace(request: HttpRequest):
       exception_message_dispatcher(request, err)
       
     context['form'] = form
-    return render(request, 'form_workspace.html', context)
+    return render(request, 'common_form.html', context)

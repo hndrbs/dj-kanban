@@ -33,7 +33,13 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
         workspace_id = get_model_id(encrypted_workspace_id)
         cards = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id) & Q(board__workspace_id=workspace_id))
         if cards.exists():
-          if not Card.objects.filter(Q(title=new_title) & Q(board__workspace_id=workspace_id)).exists():
+          if not Card.objects\
+            .filter(
+              Q(title=new_title)
+              & Q(board__workspace_id=workspace_id)
+              & ~Q(id=card_id)
+            ).exists():
+
             card = cards.first()
             card.title = bounded_card_form.cleaned_data['title']
             card.target_date = bounded_card_form.cleaned_data['target_date']

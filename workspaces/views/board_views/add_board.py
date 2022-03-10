@@ -7,11 +7,11 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
     'form': BoardForm(),
     'title_form': 'Add board',
     'submit_button_name': 'Add Board',
-    'encrypted_workspace_id': encrypted_workspace_id
+    'cancel_url': urls.reverse('boards', args=[encrypted_workspace_id])
   }
   
   if request.method == 'GET':
-    return render(request, 'form_board.html', context)
+    return render(request, 'common_form.html', context)
 
   else:
     form = BoardForm(request.POST)
@@ -27,7 +27,7 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
           Board.objects.create(title=title, workspace=workspace)
           
           messages.success(request, f'Successfully to add a board')
-          return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+          return redirect(context['cancel_url'])
         else:
           messages.warning(request, Const.ALREADY_EXISTS_BOARD)
       else:
@@ -40,4 +40,4 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
       exception_message_dispatcher(request, err)
     
     context['form'] = form
-    return render(request, 'form_board.html', context)
+    return render(request, 'common_form.html', context)
