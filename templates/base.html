@@ -16,11 +16,11 @@
   <title>Dj - Kanban</title>
 </head>
 <body class="px-0">
-
+  
   {% block navigation %}
     {% include 'navigation.html' %}
   {% endblock navigation %}
-
+  {% include 'spinner.html' %}
   <main id="content" class="container-fluid">
     {% block content %}{% endblock content %}
   </main>

@@ -23,4 +23,4 @@ def fetch_all_boards(request: HttpRequest, encrypted_workspace_id: str) -> HttpR
   except Exception as err:
     exception_message_dispatcher(request, err)
   
-  return redirect(urls.reverse(Const.WORKSPACES_URL))
+  return redirect(urls.reverse('workspaces'))

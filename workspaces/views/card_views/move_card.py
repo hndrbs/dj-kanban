@@ -9,9 +9,11 @@ def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
   card_id = get_model_id(data.get('card_id'))
   workspace_id = get_model_id(data.get('workspace_id'))
 
-  current_card = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id_from))
+  current_card = Card.objects.filter(Q(id=card_id)& Q(board_id=board_id_from))
   is_card_exist_in_this_board = current_card.exists()
-  is_next_board_exist = Board.objects.filter(Q(id=board_id_to) & Q(workspace_id=workspace_id))
+  
+  is_next_board_exist = Board.objects\
+                          .filter(Q(id=board_id_to) & Q(workspace_id=workspace_id)).exists()
   
   if is_card_exist_in_this_board and is_next_board_exist:
     card = current_card.first()

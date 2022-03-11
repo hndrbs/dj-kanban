@@ -15,7 +15,17 @@
 #message-wrapper {
   min-width: 320px;
   max-width: 700px;
-  opacity: 76%;
+  opacity: 85%;
   position: fixed;
   z-index: 999;
+}
+
+.loader {
+  display:none;
+}
+.htmx-request .loader {
+  display:inline;
+}
+.htmx-request.loader {
+  display:inline;
 }

@@ -16,13 +16,16 @@
                 {{ field }}
               </div>
             {% endfor %}
-            <button
-              hx-push-url="true"
-              hx-target="#content"
-              hx-post=""
-              type="submit"
-              class="btn btn-sm btn-secondary my-3"
-            >{{ submit_button_name }}</button>
+            <div>
+              <button
+                hx-push-url="true"
+                hx-target="#content"
+                hx-post=""
+                hx-indicator=".loader"
+                type="submit"
+                class="btn btn-sm btn-secondary my-3"
+              >{{ submit_button_name }}</button>
+            </div>
           </form>
         </div>
       </div>
