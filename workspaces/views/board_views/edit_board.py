@@ -1,13 +1,12 @@
 from .importer import *
 
-
 @login_required
 @require_http_methods(['GET', 'POST'])
 def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypted_board_id: str) -> HttpResponse:
   context = {
     'title_form': 'Edit Board',
     'submit_button_name': 'Edit Board',
-    'encrypted_workspace_id': encrypted_workspace_id
+    'cancel_url': urls.reverse('boards', args=[encrypted_workspace_id])
   }
 
   board_id = get_model_id(encrypted_board_id)
@@ -17,7 +16,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
       board = Board.objects.get(id=board_id)
       context['form'] = BoardForm(instance=board)
       
-      return render(request, 'form_board.html', context)
+      return render(request, 'common_form.html', context)
     
     except Board.DoesNotExist:
       messages.warning(request, Const.NOT_FOUND_BOARD)
@@ -35,12 +34,15 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
         title = form.cleaned_data['title']
         
         if not Board.objects\
-            .filter(Q(title=title) & Q(workspace_id=workspace_id))\
-            .exists():
+            .filter(
+              Q(title=title) 
+              & Q(workspace_id=workspace_id) 
+              & ~Q(id=board_id)
+            ).exists():
           board = Board.objects.get(id=board_id)
           board.title = title
           board.save()
-          messages.success(request, f'successfully edit board')
+          messages.success(request, f'successfully to edit a board')
           return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
         
         else:
@@ -56,4 +58,4 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
       exception_message_dispatcher(request, err)
     
     context['form'] = form
-    return render(request, 'form_board.html', context)
+    return render(request, 'common_form.html', context)

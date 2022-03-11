@@ -14,6 +14,7 @@ def delete_board(request: HttpRequest) -> HttpResponse:
 
     if board.exists():
       board.delete()
+      messages.success(request, "Successfully to delete a board")
       return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
     
     messages.warning(request, Const.NOT_FOUND_BOARD)

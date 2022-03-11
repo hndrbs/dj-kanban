@@ -17,6 +17,7 @@ def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
     card = current_card.first()
     card.board_id = board_id_to
     card.save()
+    messages.success(request, "Successfully to move a card")
     return redirect(urls.reverse('boards', args=[data.get('workspace_id')]))
   else:
     messages.warning(request, Const.INVALID_MOVE_CARD)
