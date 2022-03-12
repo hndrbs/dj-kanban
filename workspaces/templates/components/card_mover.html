@@ -11,9 +11,9 @@
   <input type="hidden" name="board_from" value="{{ board.id|encrypt_id }}">
   
   {% if go_to == "left"  %}
-    <input type="hidden" name="board_to" value="{{ board.id|add:-1|encrypt_id }}">
+    <input type="hidden" name="board_to" value="{{ board|get_previous_board_id|encrypt_id }}">
   {% elif go_to == "right" %}
-    <input type="hidden" name="board_to" value="{{ board.id|add:1|encrypt_id }}">
+    <input type="hidden" name="board_to" value="{{ board|get_next_board_id|encrypt_id }}">
   {% endif %}
 
   <input type="hidden" name="card_id" value="{{ card.id|encrypt_id }}">
