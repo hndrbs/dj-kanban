@@ -12,6 +12,6 @@ from workspaces.models import Board, Card, Workspace
 
 from helpers import (
   get_model_id, 
-  customer_render as render,
+  custom_render as render,
   exception_message_dispatcher
 )

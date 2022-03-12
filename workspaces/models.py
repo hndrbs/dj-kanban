@@ -46,7 +46,8 @@ class Card(models.Model):
   board = models.ForeignKey('workspaces.Board', on_delete=models.CASCADE)
 
   def __str__(self) -> str:
-      return self.title
+    return self.title
+ 
 class Assignment(models.Model):
   class Meta:
     db_table = 'Assignments'

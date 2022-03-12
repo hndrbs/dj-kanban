@@ -9,7 +9,7 @@ from django.core import exceptions
 from django.db.models import Q
 from django import urls
 from .models import User
-from helpers import customer_render as render
+from helpers import custom_render as render
 
 should_unauthenticated = user_passes_test(lambda user : not user.is_authenticated, "/", redirect_field_name=None)
 
