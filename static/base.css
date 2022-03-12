@@ -17,15 +17,24 @@
   max-width: 700px;
   opacity: 85%;
   position: fixed;
-  z-index: 999;
+  z-index: 800;
 }
 
 .loader {
   display:none;
 }
-.htmx-request .loader {
-  display:inline;
-}
+
 .htmx-request.loader {
   display:inline;
+  position: fixed;
+  z-index: 900;
+  right: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+}
+
+.htmx-request.loader div {
+  width: 100px;
+  height: 100px;
 }

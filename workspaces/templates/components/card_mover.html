@@ -3,7 +3,6 @@
   method="post"
   hx-target="#content"
   hx-post="{% url 'move-card' %}"
-  hx-indicator=".loader"
 >
   {% csrf_token %}
 

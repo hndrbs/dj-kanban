@@ -13,10 +13,10 @@
       {% csrf_token %}
       <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
       <button
-      type="submit" 
-      class="btn btn-transparent text-muted"
-      hx-target="#content"
-      hx-post="{% url 'deactivate-workspace' %}"
+        type="submit" 
+        class="btn btn-transparent text-muted"
+        hx-target="#content"
+        hx-post="{% url 'deactivate-workspace' %}"
       >archive</button>
     </form>
     </li>
