@@ -15,15 +15,17 @@
 
   <title>Dj - Kanban</title>
 </head>
-<body class="px-0">
+<body class="px-0" hx-indicator=".loader">
   
   {% block navigation %}
     {% include 'navigation.html' %}
   {% endblock navigation %}
-  {% include 'spinner.html' %}
+
+  {% include 'loader.html' %}
+  
   <main id="content" class="container-fluid">
     {% block content %}{% endblock content %}
   </main>
-  
+
 </body>
 </html>

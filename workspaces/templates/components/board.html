@@ -7,8 +7,10 @@
         <i class="bi bi-three-dots" ></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdown-{{ board.id }}">
-        <li hx-boost="true" hx-target="#content" hx-indicator=".loader">
-          <a href="{% url 'edit-board' board.workspace_id|encrypt_id board.id|encrypt_id %}" class="dropdown-item">edit</a>
+        <li hx-boost="true" hx-target="#content">
+          <a
+            href="{% url 'edit-board' board.workspace_id|encrypt_id board.id|encrypt_id %}" class="dropdown-item"
+          >edit</a>
         </li>
         <li>
           <form method="post">
@@ -18,7 +20,6 @@
             <button
               type="submit" 
               class="btn btn-transparent text-muted"
-              hx-indicator=".loader"
               hx-target="#content"
               hx-post="{% url 'delete-board' %}"
               hx-push-url="true"

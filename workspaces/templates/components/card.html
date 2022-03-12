@@ -6,14 +6,18 @@
      {% include 'components/card_mover.html' with go_to="right" %}
     </div>
     <div class="d-flex flex-fill justify-content-end pe-2 py-0 my-0 dropdown">
-      <button class="btn btn-transparent btn-sm text-dark" type="button" id="dropdown-{{ board.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+      <button 
+        class="btn btn-transparent btn-sm text-dark"
+        type="button" id="dropdown-{{ board.id }}"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
         <i class="bi bi-three-dots" ></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdown-{{ card.id }}">
         <li 
           hx-boost="true"
           hx-target="#content"
-          hx-indicator=".loader"
         >
           <a href="{% url 'edit-card' workspace.id|encrypt_id board.id|encrypt_id card.id|encrypt_id %}" class="dropdown-item">edit</a>
         </li>
@@ -21,7 +25,6 @@
           <form method="post"
             hx-push-url="true"
             hx-post="{% url 'delete-card' workspace.id|encrypt_id %}"
-            hx-indicator=".loader"
             hx-target="#content"
           >
             {% csrf_token %}
