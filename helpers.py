@@ -1,11 +1,10 @@
 import base64
-from curses.ascii import isalnum
 import os
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
 from constants import Constant
-from workspaces.models import Board, Card
+from workspaces.models import Board
 from django.db.models import Max, Min
 
 def get_encryption_key():
@@ -25,7 +24,7 @@ def encrypt_id(id: int) -> str:
   return base64.b64encode(my_bytes).decode('utf-8')
   
 
-def customer_render(request: HttpRequest, template: str, context: dict) -> HttpResponse:
+def custom_render(request: HttpRequest, template: str, context: dict) -> HttpResponse:
   if  request.headers.get('HX-Request')\
       and not request.headers.get('HX-Current-URL', '').__contains__('auth'):
     template = 'fragments/' + template
@@ -33,6 +32,8 @@ def customer_render(request: HttpRequest, template: str, context: dict) -> HttpR
   return render(request, template, context)
 
 def exception_message_dispatcher(request: HttpRequest, error_message: Exception):
+  # this function's name should be changed
+  # the name should be a "verb"
   messages.error(request, str(error_message))
   messages.error(request, Constant.EXCEPTION_MESSAGE)
 

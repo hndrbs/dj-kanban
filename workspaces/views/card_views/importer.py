@@ -1,5 +1,5 @@
 from helpers import (
-    customer_render as render,
+    custom_render as render,
     get_model_id,
     encrypt_id,
     exception_message_dispatcher
