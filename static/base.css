@@ -28,13 +28,14 @@
   display:inline;
   position: fixed;
   z-index: 900;
-  right: 50%;
-  top: 50%;
   width: 100px;
   height: 100px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .htmx-request.loader div {
-  width: 100px;
-  height: 100px;
+  height: 100%;
+  width: 100%;
 }
