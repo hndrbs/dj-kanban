@@ -16,16 +16,17 @@
   <title>Dj - Kanban</title>
 </head>
 <body class="px-0" hx-indicator=".loader">
-  
-  {% block navigation %}
-    {% include 'navigation.html' %}
-  {% endblock navigation %}
-
   {% include 'loader.html' %}
-  
-  <main id="content" class="container-fluid">
-    {% block content %}{% endblock content %}
-  </main>
+
+  <div id="content-container">
+      {% block navigation %}
+        {% include 'navigation.html' %}
+      {% endblock navigation %}
+
+    <main id="content" class="container-fluid">
+      {% block content %}{% endblock content %}
+    </main>
+  </div>
 
 </body>
 </html>
