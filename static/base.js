@@ -9,3 +9,34 @@ function clearMessage(){
     }, baseDelay + (incrementDelay * idx))
   })
 }
+
+
+function fetchForm(url) {
+  htmx
+    .ajax("GET", url, { target: "#modal_container" })
+    .then(() => toggleModal("modal_form"))
+}
+
+
+
+function toggleModal(modalId) {
+  var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById(modalId), {
+    keyboard: false
+  })
+  myModal.show()
+}
+
+
+function setListenerFetchModalForm() {
+  const buttons = document.querySelectorAll("[data-todo=fetchForm]")
+  
+  Array.from(buttons).forEach((button) => {
+    const url = button.getAttribute("data-url")
+    const id = "#" + button.id
+    htmx.on(id, "click", () => fetchForm(url))
+  })
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  setListenerFetchModalForm()
+})

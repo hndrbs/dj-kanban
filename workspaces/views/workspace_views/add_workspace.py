@@ -11,7 +11,7 @@ def add_workspace(request: HttpRequest):
   }
   
   if request.method == "GET":
-    return render(request, 'common_form.html', context)
+    return render(request, 'modal_common_form.html', context)
 
   else:
     form = WorkspaceForm(request.POST)

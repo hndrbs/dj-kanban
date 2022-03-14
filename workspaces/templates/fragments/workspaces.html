@@ -1,12 +1,12 @@
 {% include 'messages.html' %}
 
 <div class="d-flex justify-content-end p-2">
-  <a
-    hx-boost="true"
-    hx-target="#content"
+  <button
+    id="btn_add_workspace" 
     class="btn-sm btn btn-primary"
-    href="{% url 'add-workspace' %}"
-  >Add workspace</a>
+    data-url="{% url 'add-workspace' %}"
+    data-todo="fetchForm"
+  >Add workspace</button>
 </div>
 
 <div class="row py-3 px-2">
