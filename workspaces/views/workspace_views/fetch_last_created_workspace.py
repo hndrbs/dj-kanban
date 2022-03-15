@@ -10,6 +10,6 @@ def fetch_last_created_workspace(request: HttpRequest) -> HttpResponse:
     "partial": True
   }
   
-  messages.success(request, "successfully save new workspace")
+  messages.success(request, "successfully save a new workspace")
 
   return djrender(request, "components/workspace.html", context)
