@@ -1,44 +1,33 @@
-{% comment %} this form is being used by workspace, board, and card {% endcomment %}
 
-{% include 'messages.html' %}
-
-<div class="container">
-  <div class="row align-items-center justify-content-center">
-  <div class="col-12 col-md-6 mt-5">
-    <div class="card px-5 py-4 shadow-sm">
-    <div class="text-center">
-      <h1 class="fs-4">{{ title_form }}</h1>
-      <form method="post">
+{% if partial %}
+  {% include 'messages.html' %}
+{% endif %}
+  
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="title">{{ title_form }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <form method="post">
       {% csrf_token %}
       {% for field in form %}
-        <div class="form-group py-2">
-        <div class="mb-1">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        </div>
-        {{ field }}
-        {% for err in field.errors %}
-          <p class="fs-6 text-danger"><small>{{ err }}</small></p>
-        {% endfor %}
-        </div>
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="col-form-label">{{ field.label }}</label>
+          {{ field }}
+          {% for err in field.errors %}
+            <p class="fs-6 text-danger"><small>{{ err }}</small></p>
+          {% endfor %}
+        </div>  
       {% endfor %}
-      <button
-        type="button"
-        class="btn btn-sm btn-outline-dark my-3"
-        hx-target="#content"
-        hx-get={{ cancel_url }}
-        hx-push-url="true"
-      >Cancel</button>
-      <button
-        hx-post=""
-        hx-target="#content"
-        type="submit"
-        class="btn btn-sm btn-secondary my-3"
-        hx-push-url="true"
-      >{{ submit_button_name }}</button>
-      </form>
-    </div>
-    </div>
-  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button
+          type="submit" class="btn btn-primary" 
+          hx-post="{{ request.path }}"
+          hx-target="#dialog"
+          >{{ submit_button_name }}</button>
+      </div>
+    </form>
   </div>
 </div>
-  

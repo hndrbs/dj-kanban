@@ -17,7 +17,9 @@
   max-width: 700px;
   opacity: 85%;
   position: fixed;
-  z-index: 800;
+  z-index: 8888;
+  right: 0;
+  bottom: 0;
 }
 
 .loader {
@@ -27,7 +29,7 @@
 .htmx-request.loader {
   display:inline;
   position: fixed;
-  z-index: 900;
+  z-index: 9999;
   width: 100px;
   height: 100px;
   left: 50%;

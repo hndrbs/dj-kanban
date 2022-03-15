@@ -1,42 +1,53 @@
 function clearMessage(){
-  let baseDelay = 10000
-  let incrementDelay = 1500
-  let arrayOfAlerts = [].slice.call(document.querySelectorAll(".alert"))
+  const baseDelay = 10000
+  const incrementDelay = 1500
+  const alerts = document.querySelectorAll(".alert")
 
-  arrayOfAlerts.forEach((alert, idx) => {
+  Array.from(alerts).forEach((alert, idx) => {
     setTimeout(() => {
       alert.remove()
     }, baseDelay + (incrementDelay * idx))
   })
 }
 
+let modal;
 
-function fetchForm(url) {
-  htmx
-    .ajax("GET", url, { target: "#modal_container" })
-    .then(() => toggleModal("modal_form"))
+document.addEventListener("DOMContentLoaded", () => {
+   modal = new bootstrap.Modal(document.getElementById("modal"))
+})
+
+const CONSTANTS = {
+  swapTypeAttribute: "data-swap-type",
+  swapTargetAttribute: "data-swap-target"
 }
 
 
+htmx.on("htmx:afterSwap", (e) => {
+  // Response targeting #dialog => show the modal
+  if (e.detail.target.id == "dialog") {
+    modal.show()
+  }
+})
 
-function toggleModal(modalId) {
-  var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById(modalId), {
-    keyboard: false
-  })
-  myModal.show()
-}
+
+htmx.on("htmx:beforeSwap", (e) => {
+  // Empty response targeting #dialog => hide the modal
+  if (e.detail.target.id === "dialog" 
+      && !e.detail.xhr.response 
+      && e.detail.requestConfig.verb === "post" 
+    ) {
+      if (e.detail.xhr.status === 204) {
+        modal.hide()
+        e.detail.shouldSwap = false
+      } else {
+        modal.dispose()
+        modal = new bootstrap.Modal(document.getElementById("modal"))
+        modal.show()
+      }
+  }
+})
 
 
-function setListenerFetchModalForm() {
-  const buttons = document.querySelectorAll("[data-todo=fetchForm]")
-  
-  Array.from(buttons).forEach((button) => {
-    const url = button.getAttribute("data-url")
-    const id = "#" + button.id
-    htmx.on(id, "click", () => fetchForm(url))
-  })
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-  setListenerFetchModalForm()
+htmx.on("hidden.bs.modal", () => {
+  document.getElementById("dialog").innerHTML = ""
 })

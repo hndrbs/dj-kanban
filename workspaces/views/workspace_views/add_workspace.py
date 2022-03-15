@@ -6,12 +6,11 @@ def add_workspace(request: HttpRequest):
   context = {
     'form': WorkspaceForm(),
     'submit_button_name': 'Add Workspace',
-    'title_form': 'Add Workspace',
-    'cancel_url': urls.reverse('workspaces')
+    'title_form': 'Add Workspace'
   }
   
   if request.method == "GET":
-    return render(request, 'modal_common_form.html', context)
+    return render(request, 'common_form.html', context)
 
   else:
     form = WorkspaceForm(request.POST)
@@ -31,17 +30,20 @@ def add_workspace(request: HttpRequest):
             member=request.user,
             workspace=new_workspace
           )
-          messages.success(request, "successfully save new workspace")
-          return redirect(urls.reverse('workspaces'))
+
+          return HttpResponse(status=204, headers={"HX-Trigger": "movieAdded"})
         
         else:
           messages.warning(request, "Looks like workspace with this title already exists")
       
       else:      
         messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
+
       
     except Exception as err:
       exception_message_dispatcher(request, err)
       
     context['form'] = form
-    return render(request, 'common_form.html', context)
+    context['partial'] = True
+    
+    return render(request, 'common_form.html', context=context)

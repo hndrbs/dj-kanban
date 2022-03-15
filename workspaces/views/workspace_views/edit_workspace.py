@@ -5,8 +5,7 @@ from .importer import *
 def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpResponse:
   context = {
     'submit_button_name': 'Edit Workspace',
-    'title_form': 'Edit Workspace',
-    'cancel_url': urls.reverse('workspaces')
+    'title_form': 'Edit Workspace'
   }
   
   if request.method == "GET":
@@ -45,9 +44,8 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
           workspace.title = form.cleaned_data['title']
           workspace.desc = form.cleaned_data['desc']
           workspace.save()
-          messages.success(request, "successfully edit workspace")
           
-          return redirect(urls.reverse('workspaces'))
+          return HttpResponse(status=204, headers={"HX-Trigger": f"workspaceChanged-{encrypted_workspace_id}"})
 
         else:
           messages.warning(request, "Looks like workspace with this title already exists")
@@ -61,6 +59,7 @@ def edit_workspace(request: HttpRequest, encrypted_workspace_id: str) -> HttpRes
     except Exception as err:
       exception_message_dispatcher(request, err)
     
-    context.update({'form': form})
+    context['form'] = form
+    context['partial'] = True
     
     return render(request, 'common_form.html', context)

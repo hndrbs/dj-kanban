@@ -1,6 +1,20 @@
+
+{% if partial %}
+  {% include 'messages.html' %}
+{% endif %}
+  
+
 {% load workspace_template_tags %}
 
-<div class="col-lg-4 col-12 mt-3">
+<div
+  class="col-lg-4 col-12 mt-3"
+  hx-trigger="workspaceChanged-{{ workspace.id|encrypt_id }} from:body"
+  hx-target="this"
+  hx-swap="outerHTML"
+  hx-get="{% url 'one-workspace' workspace.id|encrypt_id %}"
+  hx-push-url="false"
+>
+  
   <div class="card shadow h-100">
     {% include 'components/workspace_header.html' %}
     <div class="card-body pt-0 d-flex flex-column" hx-boost="true">
@@ -10,8 +24,10 @@
       </div>
       <div>
         <a
+          hx-swap="innerHTML"
           hx-push-url="true"
           hx-target="#content"
+          hx-swap="innerHTML"
           href="{% url 'boards' workspace.id|encrypt_id %}" 
           class="btn btn-sm btn-dark"
       >See workspace</a>

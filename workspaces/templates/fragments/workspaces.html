@@ -2,14 +2,18 @@
 
 <div class="d-flex justify-content-end p-2">
   <button
-    id="btn_add_workspace" 
     class="btn-sm btn btn-primary"
-    data-url="{% url 'add-workspace' %}"
-    data-todo="fetchForm"
+    hx-get="{% url 'add-workspace' %}"
+    hx-target="#dialog"
   >Add workspace</button>
 </div>
 
-<div class="row py-3 px-2">
+<div 
+  class="row py-3 px-2"
+  hx-trigger="movieAdded from:body"
+  hx-swap="afterbegin"
+  hx-get="{% url 'last-workspace' %}"
+>
   {% for workspace in workspaces %}
       {% include 'components/workspace.html' with workspace=workspace %}
   {% endfor %}
