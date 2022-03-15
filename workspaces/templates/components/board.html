@@ -1,37 +1,11 @@
-{% load workspace_template_tags %}
+
+{% comment %}
+  here, we don't need to include messages.html
+  as it is already included on board_header.html
+{% endcomment %}
+  
 <div class="d-flex flex-column board me-3 px-1">
-  <div class="bg-secondary text-light p-2 d-flex rounded" hx-boost="true" hx-target="#content">
-    <span class="me-auto">{{ board.title }}</span>
-    <div class="d-flex justify-content-end pe-2 py-0 my-0 dropdown">
-      <button class="btn btn-transparent btn-sm text-white" type="button" id="dropdown-{{ board.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots" ></i>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdown-{{ board.id }}">
-        <li hx-boost="true" hx-target="#content">
-          <a
-            href="{% url 'edit-board' board.workspace_id|encrypt_id board.id|encrypt_id %}" class="dropdown-item"
-          >edit</a>
-        </li>
-        <li>
-          <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="workspace_id" value="{{ workspace.id|encrypt_id }}">
-            <input type="hidden" name="board_id" value="{{ board.id|encrypt_id }}">
-            <button
-              type="submit" 
-              class="btn btn-transparent text-muted"
-              hx-target="#content"
-              hx-post="{% url 'delete-board' %}"
-              hx-push-url="true"
-            >delete</button>
-          </form>
-        </li>
-      </ul>
-    </div>
-    <a class="btn btn-sm text-white" href="{% url 'add-card' board.id|encrypt_id %}">
-      <i class="bi bi-plus-circle"></i>
-    </a>
-  </div>
+  {% include 'components/board_header.html' %}
   <div class="flex-fill py-2 ">
     {% for card in cards  %}
       {% if card.board_id == board.id %}

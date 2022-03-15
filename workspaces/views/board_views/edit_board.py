@@ -42,8 +42,7 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
           board = Board.objects.get(id=board_id)
           board.title = title
           board.save()
-          messages.success(request, f'successfully to edit a board')
-          return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+          return HttpResponse(status=204, headers={"HX-Trigger": f"boardEdited-{encrypted_board_id}"})
         
         else:
           messages.warning(request, Const.ALREADY_EXISTS_BOARD)
@@ -58,4 +57,5 @@ def edit_board_title(request: HttpRequest, encrypted_workspace_id: str, encrypte
       exception_message_dispatcher(request, err)
     
     context['form'] = form
+    context['partial'] = True
     return render(request, 'common_form.html', context)
