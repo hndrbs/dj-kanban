@@ -1,43 +1,18 @@
+
+{% if partial %}
+  {% include 'messages.html' %}
+{% endif %}
+  
+
 {% load workspace_template_tags %}
-<div class="card my-2">
-  <div class="card-header d-flex p-0">
-    <div class="d-flex justify-content-between">
-     {% include 'components/card_mover.html' with go_to="left" %}
-     {% include 'components/card_mover.html' with go_to="right" %}
-    </div>
-    <div class="d-flex flex-fill justify-content-end pe-2 py-0 my-0 dropdown">
-      <button 
-        class="btn btn-transparent btn-sm text-dark"
-        type="button" id="dropdown-{{ board.id }}"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <i class="bi bi-three-dots" ></i>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdown-{{ card.id }}">
-        <li 
-          hx-boost="true"
-          hx-target="#content"
-        >
-          <a href="{% url 'edit-card' workspace.id|encrypt_id board.id|encrypt_id card.id|encrypt_id %}" class="dropdown-item">edit</a>
-        </li>
-        <li>
-          <form method="post"
-            hx-push-url="true"
-            hx-post="{% url 'delete-card' workspace.id|encrypt_id %}"
-            hx-target="#content"
-          >
-            {% csrf_token %}
-            <input type="hidden" name="card_id" value="{{ card.id|encrypt_id }}">
-            <button
-              type="submit"
-              class="btn btn-transparent text-muted"
-            >delete</button>
-          </form>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div 
+  class="card my-2"
+  hx-trigger="cardEdited-{{ card.id|encrypt_id }} from:body"
+  hx-swap="outerHTML"
+  hx-get="{% url 'one-card' workspace.id|encrypt_id board.id|encrypt_id card.id|encrypt_id %}"
+  hx-target="this"
+>
+  {% include 'components/card_header.html' %}
   <div class="card-body">
     <p>{{ card.title }}</p>
   </div>

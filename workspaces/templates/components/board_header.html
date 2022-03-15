@@ -41,7 +41,12 @@
       </li>
     </ul>
   </div>
-  <a class="btn btn-sm text-white" href="{% url 'add-card' board.id|encrypt_id %}">
+  <button 
+    class="btn btn-sm text-white"
+    hx-get="{% url 'add-card' board.id|encrypt_id %}"
+    hx-target="#dialog"
+    hx-swap="innerHTML"
+  >
     <i class="bi bi-plus-circle"></i>
-  </a>
+  </button>
 </div>

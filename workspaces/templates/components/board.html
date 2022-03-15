@@ -3,10 +3,17 @@
   here, we don't need to include messages.html
   as it is already included on board_header.html
 {% endcomment %}
-  
+
+{% load workspace_template_tags %}
 <div class="d-flex flex-column board me-3 px-1">
   {% include 'components/board_header.html' %}
-  <div class="flex-fill py-2 ">
+  <div 
+    class="flex-fill py-2"
+    hx-trigger="cardAdded-{{ board.id|encrypt_id }} from:body"
+    hx-target="this"
+    hx-get="{% url 'last-card' board.id|encrypt_id %}"
+    hx-swap="afterbegin"
+  >
     {% for card in cards  %}
       {% if card.board_id == board.id %}
         {% include 'components/card.html' with card=card %}
