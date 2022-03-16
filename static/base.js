@@ -7,15 +7,19 @@ const CONSTANTS = {
   swapTargetAttribute: "data-swap-target"
 }
 
-function clearMessage(){
-  const baseDelay = 10000
+function clearMessage(id){
+  let baseDelay = 10000
   const incrementDelay = 1500
-  const alerts = document.querySelectorAll(".alert")
+  const messageWrapper = document.getElementById(id)
+  const alerts = messageWrapper.querySelectorAll(".alert")
 
   Array.from(alerts).forEach((alert, idx) => {
-    setTimeout(() => {
-      alert.remove()
-    }, baseDelay + (incrementDelay * idx))
+    baseDelay += incrementDelay * idx
+    htmx.remove(alert, baseDelay)
+
+    if (idx + 1 === alerts.length) {
+      htmx.remove(messageWrapper, baseDelay + 1000);
+    }
   })
 }
 

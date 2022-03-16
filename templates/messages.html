@@ -1,6 +1,9 @@
+{% load workspace_template_tags %}
 {% if messages %}
-  
-<div id="message-wrapper">
+
+{% with random_id=100|generate_random|encrypt_id  %}
+
+<div class="message-wrapper" id="msg-{{ random_id }}">
   {% for msg in messages %}
     {% if msg.tags == 'error' %}
         <div
@@ -20,7 +23,11 @@
   {% endfor %}
 </div>
 
-<script>clearMessage()</script>
+<script>
+  clearMessage("msg-{{ random_id }}")
+</script>
+
+{% endwith %}
 
 {% endif %}
 
