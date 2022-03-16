@@ -10,20 +10,19 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
   }
   card_id = get_model_id(encrypted_card_id)
   board_id = get_model_id(encrypted_board_id)
-  
+  card = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id))
+
   if request.method == 'GET':
     try:
-      card = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id))
       if card.exists():
-        context.update({ 'form': CardForm(instance=card.first()) })
-        # context['form'] = BoardForm(instance=boards.first())
-        return render(request, 'form_card.html', context)
+        context['form'] = CardForm(instance=card.first())
+        return render(request, 'common_form.html', context)
     
       messages.warning(request, Const.NOT_FOUND_BOARD)
     except Exception as err:
       exception_message_dispatcher(request, err)
 
-    return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+    return HttpResponse(status=204)
   
   else:
     try:
@@ -32,6 +31,7 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
         new_title = bounded_card_form.cleaned_data['title']
         workspace_id = get_model_id(encrypted_workspace_id)
         cards = Card.objects.filter(Q(id=card_id) & Q(board_id=board_id) & Q(board__workspace_id=workspace_id))
+
         if cards.exists():
           if not Card.objects\
             .filter(
@@ -44,8 +44,9 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
             card.title = bounded_card_form.cleaned_data['title']
             card.target_date = bounded_card_form.cleaned_data['target_date']
             card.save()
-            messages.success(request, "Successfully to edit a card")
-            return redirect(urls.reverse('boards', args=[encrypted_workspace_id]))
+            
+            return HttpResponse(status=204, headers={"HX-Trigger": f"cardEdited-{encrypted_card_id}"})
+
           else:
             messages.warning(request, Const.ALREADY_EXISTS_CARD)
         else:
@@ -55,5 +56,8 @@ def edit_card(request: HttpRequest, encrypted_workspace_id:str, encrypted_board_
 
     except Exception as err:
       exception_message_dispatcher(request, err)
-    
-    return redirect(urls.reverse('edit-card', args=[encrypted_workspace_id, encrypted_board_id, encrypted_card_id]))
+
+    context['form'] = bounded_card_form
+    context['partial'] = True
+
+    return render(request, 'common_form.html', context)

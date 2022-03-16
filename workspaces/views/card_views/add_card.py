@@ -1,6 +1,5 @@
 from .importer import *
 
-
 @login_required
 @require_http_methods(['GET', 'POST'])
 def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
@@ -14,14 +13,15 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
   if request.method == 'GET':
     try:
       if Board.objects.filter(id=board_id).exists():
-        return render(request, 'form_card.html', context)
+        return render(request, 'common_form.html', context)
     
       messages.warning(request, Const.NOT_FOUND_BOARD)
 
     except Exception as err:
       exception_message_dispatcher(request, err)
 
-    return redirect(urls.reverse('workspaces'))
+    # this kind of response should be re-considered
+    return HttpResponse(status=204)
   
   else:
     bounded_card_form = CardForm(request.POST)
@@ -32,9 +32,7 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
           target_date = bounded_card_form.cleaned_data['target_date'],
           board_id = board_id
         )
-        board = Board.objects.get(id=board_id)
-        messages.success(request, "Sucessfully to add a card")
-        return redirect(urls.reverse('boards', args=[encrypt_id(board.workspace_id)]))
+        return HttpResponse(status=204, headers={"HX-Trigger": f"cardAdded-{encrypted_board_id}"})
 
       messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
     
@@ -42,5 +40,6 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
       exception_message_dispatcher(request, err)
     
     context['form'] = bounded_card_form
+    context['partial'] = True
     
-    return render(request, 'form_card.html', context)
+    return render(request, 'common_form.html', context)

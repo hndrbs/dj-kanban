@@ -1,0 +1,33 @@
+
+{% if partial %}
+  {% include 'messages.html' %}
+{% endif %}
+  
+<div class="modal-content min-w-50">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ title_form }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="col-form-label">{{ field.label }}</label>
+          {{ field }}
+          {% for err in field.errors %}
+            <p class="fs-6 text-danger"><small>{{ err }}</small></p>
+          {% endfor %}
+        </div>  
+      {% endfor %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button
+          type="submit" class="btn btn-primary" 
+          hx-post="{{ request.path }}"
+          hx-target="#dialog"
+          >{{ submit_button_name }}</button>
+      </div>
+    </form>
+  </div>
+</div>

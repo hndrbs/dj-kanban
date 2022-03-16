@@ -6,8 +6,7 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
   context = {
     'form': BoardForm(),
     'title_form': 'Add board',
-    'submit_button_name': 'Add Board',
-    'cancel_url': urls.reverse('boards', args=[encrypted_workspace_id])
+    'submit_button_name': 'Add Board'
   }
   
   if request.method == 'GET':
@@ -24,10 +23,9 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
 
         if not boards.exists():
           workspace = Workspace.objects.get(id=get_model_id(encrypted_workspace_id))
-          Board.objects.create(title=title, workspace=workspace)
-          
-          messages.success(request, f'Successfully to add a board')
-          return redirect(context['cancel_url'])
+          Board.objects.create(title=title, workspace=workspace)          
+          return HttpResponse(status=204, headers={"HX-Trigger": "boardAdded"})
+        
         else:
           messages.warning(request, Const.ALREADY_EXISTS_BOARD)
       else:
@@ -40,4 +38,5 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
       exception_message_dispatcher(request, err)
     
     context['form'] = form
+    context['partial'] = True
     return render(request, 'common_form.html', context)

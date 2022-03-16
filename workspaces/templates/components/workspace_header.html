@@ -5,20 +5,26 @@
     <i class="bi bi-three-dots" ></i>
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-{{ workspace.id }}">
-    <li hx-boost="true" hx-target="#content">
-    <a href="{% url 'edit-workspace' workspace.id|encrypt_id %}" class="dropdown-item">edit</a>
+    <li>
+    <button
+      class="dropdown-item btn btn-transparent text-dark"
+      hx-get="{% url 'edit-workspace' workspace.id|encrypt_id %}"
+      hx-target="#dialog"
+      hx-swap="innerHTML"
+      hx-push-url="false"
+    >edit</button>
     </li>
     <li>
-    <form method="post">
-      {% csrf_token %}
-      <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
-      <button
-        type="submit" 
-        class="btn btn-transparent text-muted"
-        hx-target="#content"
-        hx-post="{% url 'deactivate-workspace' %}"
-      >archive</button>
-    </form>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ workspace.id|encrypt_id }}">
+        <button
+          type="submit" 
+          class="btn btn-transparent text-muted"
+          hx-target="#content"
+          hx-post="{% url 'deactivate-workspace' %}"
+        >archive</button>
+      </form>
     </li>
   </ul>
 </div>

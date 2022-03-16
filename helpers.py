@@ -24,12 +24,12 @@ def encrypt_id(id: int) -> str:
   return base64.b64encode(my_bytes).decode('utf-8')
   
 
-def custom_render(request: HttpRequest, template: str, context: dict) -> HttpResponse:
+def custom_render(request: HttpRequest, template: str, context: dict, status:int = 200) -> HttpResponse:
   if  request.headers.get('HX-Request')\
       and not request.headers.get('HX-Current-URL', '').__contains__('auth'):
     template = 'fragments/' + template
-    
-  return render(request, template, context)
+  
+  return render(request, template, context=context, status=status)
 
 def exception_message_dispatcher(request: HttpRequest, error_message: Exception):
   # this function's name should be changed
