@@ -1,5 +1,6 @@
 import base64
 import os
+import random
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
@@ -43,3 +44,6 @@ def get_next_board_id(board: Board) -> int:
 
 def get_previous_board_id(board: Board) -> int:
   return Board.objects.filter(id__lt=board.id).values_list('id').aggregate(Max('id')).get('id__max')
+
+def generate_random(max_num: int) -> int:
+  return random.randint(1, max_num)
