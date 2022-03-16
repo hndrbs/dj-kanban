@@ -30,18 +30,12 @@
         >edit</button>
       </li>
       <li>
-        <form method="post"
-          hx-push-url="true"
-          hx-post="{% url 'delete-card' board.id|encrypt_id %}"
-          hx-target="#content"
-        >
-          {% csrf_token %}
-          <input type="hidden" name="card_id" value="{{ card.id|encrypt_id }}">
-          <button
-            type="submit"
-            class="btn btn-transparent text-muted"
-          >delete</button>
-        </form>
+        <button
+          class="dropdown-item btn btn-transparent text-muted"
+          hx-get="{% url 'delete-card' %}?id={{ card.id|encrypt_id }}"
+          hx-target="#dialog"
+          hx-swap="innerHTML"
+        >delete</button>
       </li>
     </ul>
   </div>

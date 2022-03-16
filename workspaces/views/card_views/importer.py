@@ -7,7 +7,7 @@ from helpers import (
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render as djrender
 from django.contrib import messages
 from django.db.models import Q
 from django import urls
