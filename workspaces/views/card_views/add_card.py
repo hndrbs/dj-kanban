@@ -1,6 +1,5 @@
 from .importer import *
 
-
 @login_required
 @require_http_methods(['GET', 'POST'])
 def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
