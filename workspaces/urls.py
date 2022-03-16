@@ -8,7 +8,7 @@ from .views import (
 urlpatterns = [
   path('', wv.fetch_all_workspaces, name='workspaces'),
   path('add', wv.add_workspace, name='add-workspace'),
-  path('deactivate', wv.deactivate_workspace, name='deactivate-workspace'),
+  path('delete', wv.delete_workspace, name='delete-workspace'),
   path('lastcreated', wv.fetch_last_created_workspace, name='last-workspace'),
   path('one/<str:encrypted_workspace_id>', wv.fetch_one_workspace, name='one-workspace'),
   path('edit/<str:encrypted_workspace_id>', wv.edit_workspace, name='edit-workspace'),

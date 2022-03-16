@@ -13,6 +13,7 @@
   hx-swap="outerHTML"
   hx-get="{% url 'one-workspace' workspace.id|encrypt_id %}"
   hx-push-url="false"
+  id="workspace-{{ workspace.id|encrypt_id }}"
 >
   
   <div class="card shadow h-100">

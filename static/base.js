@@ -44,15 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
   htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    if (e.detail.target.id === "dialog" 
-        && !e.detail.xhr.response 
-        && e.detail.requestConfig.verb === "post" 
-      ) {
-        if (e.detail.xhr.status === 204) {
+    if (e.detail.requestConfig.verb === "post") {
+        if ([204, 200].includes(e.detail.xhr.status)) {
           modal.hide()
-          e.detail.shouldSwap = false
-          removeEmptyContentContainer()        
+          e.detail.shouldSwap = (e.detail.target !== "dialog")
+          removeEmptyContentContainer()
         } else {
           renewModal()
         }
