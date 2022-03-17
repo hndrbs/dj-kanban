@@ -12,17 +12,19 @@ def get_encryption_key():
   return os.environ.get('MODEL_ENCRYPTION_KEY')
   
 def get_model_id(encrypted_id: str) -> int:
-  id_secret_key = base64.b64decode(encrypted_id).decode('utf-8')
-  id = id_secret_key.split(os.environ.get('MODEL_ENCRYPTION_KEY'))[0]
+  return encrypted_id
+  # id_secret_key = base64.b64decode(encrypted_id).decode('utf-8')
+  # id = id_secret_key.split(os.environ.get('MODEL_ENCRYPTION_KEY'))[1]
   
-  if not id.isnumeric(): return 0
+  # if not id.isnumeric(): return 0
 
-  return int(id)
+  # return int(id)
   
 def encrypt_id(id: int) -> str:
-  plain_string = str(id) + get_encryption_key()
-  my_bytes = plain_string.encode('utf-8')
-  return base64.b64encode(my_bytes).decode('utf-8')
+  return id
+  # plain_string = get_encryption_key() + str(id)
+  # my_bytes = plain_string.encode('utf-8')
+  # return base64.b64encode(my_bytes).decode('utf-8')
   
 
 def custom_render(request: HttpRequest, template: str, context: dict, status:int = 200) -> HttpResponse:

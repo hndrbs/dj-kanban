@@ -11,7 +11,8 @@
   hx-swap="outerHTML"
   hx-get="{% url 'one-card' workspace.id|encrypt_id board.id|encrypt_id card.id|encrypt_id %}"
   hx-target="this"
-  id="card-{{ card.id|encrypt_id }}"
+  data-card="{{ card.id|encrypt_id }}"
+  data-parent="{{ board.id|encrypt_id }}"
 >
   {% include 'components/card_header.html' %}
   <div class="card-body">

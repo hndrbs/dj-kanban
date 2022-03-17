@@ -16,6 +16,7 @@
     hx-target="this"
     hx-get="{% url 'last-card' board.id|encrypt_id %}"
     hx-swap="afterbegin"
+    id="cardcontainer-{{ board.id|encrypt_id }}"
   >
     {% for card in cards  %}
       {% if card.board_id == board.id %}

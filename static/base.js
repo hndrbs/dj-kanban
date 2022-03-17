@@ -64,6 +64,22 @@ document.addEventListener("DOMContentLoaded", () => {
       // handle on delete, always close modal and render message with status code 200
       modal.hide()
       e.detail.shouldSwap = true
-    }
+    } 
+  })
+
+  document.addEventListener("htmx:afterRequest", e => {
+    if (e.detail.requestConfig.verb === "post" 
+      && e.detail.xhr.status === 200
+      && e.detail.target.id.split("-")[0] === "cardcontainer") {
+        // console.log(e.target)
+        console.log("terpanggil")
+        // const requestor = e.target
+        // const inputBoardFromId = requestor.querySelector("[name=board_from]")
+        // const inputCardId = requestor.querySelector("[name=card_id]")
+        // const boardId = inputBoardFromId.getAttribute("value")
+        // const cardId = inputCardId.getAttribute("value")
+        // const shouldDeletedCard = document.querySelector(`[data-parent="${boardId}"][data-card="${cardId}"]`)
+        // shouldDeletedCard.remove()
+      }
   })
 })
