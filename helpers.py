@@ -42,10 +42,17 @@ def exception_message_dispatcher(request: HttpRequest, error_message: Exception)
 
 
 def get_next_board_id(board: Board) -> int:
-  return Board.objects.filter(id__gt=board.id).values_list('id').aggregate(Min('id')).get('id__min')
+  boards = Board.objects.filter(id__gt=board.id)
+  if boards.exists():
+    return boards.values_list('id').aggregate(Min('id')).get('id__min')
+  return 0
 
 def get_previous_board_id(board: Board) -> int:
-  return Board.objects.filter(id__lt=board.id).values_list('id').aggregate(Max('id')).get('id__max')
+  boards = Board.objects.filter(id__lt=board.id)
+  if boards.exists():
+    return boards.values_list('id').aggregate(Max('id')).get('id__max')
+  
+  return 0
 
 def generate_random(max_num: int) -> int:
   return random.randint(1, max_num)
