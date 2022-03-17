@@ -18,7 +18,7 @@ function clearMessage(id){
     htmx.remove(alert, baseDelay)
 
     if (idx + 1 === alerts.length) {
-      htmx.remove(messageWrapper, baseDelay + 1000);
+      setTimeout(() => messageWrapper.remove(), baseDelay + 3000)
     }
   })
 }
@@ -48,19 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
   htmx.on("htmx:beforeSwap", (e) => {
-    if (e.detail.requestConfig.verb === "post") {
-        if ([204, 200].includes(e.detail.xhr.status)) {
+    if (e.detail.requestConfig.verb === "post" && e.detail.target.id === "dialog") {
+        // handle on edit + add
+        if (e.detail.xhr.status === 204) {
           modal.hide()
-          e.detail.shouldSwap = (e.detail.target !== "dialog")
+          e.detail.shouldSwap = false
           removeEmptyContentContainer()
         } else {
           renewModal()
         }
+    } else if (e.detail.requestConfig.verb === "post" 
+              && e.detail.xhr.status === 200
+              && ["card", "board", "workspace"].includes(e.detail.target.id.split("-")[0])
+    ) {
+      // handle on delete, always close modal and render message with status code 200
+      modal.hide()
+      e.detail.shouldSwap = true
     }
   })
-
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = ""
-  })
-
 })

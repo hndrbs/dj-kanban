@@ -24,5 +24,3 @@ class CardForm(forms.ModelForm):
   class Meta:
     model = Card
     fields = ['title', 'target_date']
-  
-  

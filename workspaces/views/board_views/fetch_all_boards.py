@@ -18,7 +18,7 @@ def fetch_all_boards(request: HttpRequest, encrypted_workspace_id: str) -> HttpR
     return render(request, 'boards.html', context)
   
   except Workspace.DoesNotExist:
-    messages.warning(request, Const.NOT_FOUND_MESSAGE)
+    messages.warning(request, Const.NOT_FOUND_BOARD)
   
   except Exception as err:
     exception_message_dispatcher(request, err)
