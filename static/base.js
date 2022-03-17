@@ -1,6 +1,7 @@
 "use strict"
 
-let modal;
+let modal
+let hasAfterRequestBeenCalled = false
 
 const CONSTANTS = {
   swapTypeAttribute: "data-swap-type",
@@ -35,6 +36,18 @@ function renewModal() {
   modal.show()
 }
 
+async function getCardThatShouldBeDeleted(e) {
+  const requestor = e.target
+  const inputBoardFromId = requestor.querySelector("[name=board_from]")
+  const inputCardId = requestor.querySelector("[name=card_id]")
+  const boardId = inputBoardFromId.getAttribute("value")
+  const cardId = inputCardId.getAttribute("value")
+  return document.querySelector(`[data-parent="${boardId}"][data-card="${cardId}"]`)
+}
+
+async function deleteTheCard(node) {
+  node.remove()
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   modal = new bootstrap.Modal(document.getElementById("modal"))
@@ -64,6 +77,15 @@ document.addEventListener("DOMContentLoaded", () => {
       // handle on delete, always close modal and render message with status code 200
       modal.hide()
       e.detail.shouldSwap = true
-    }
+    } 
+  })
+
+  document.addEventListener("htmx:afterRequest", async e => {
+    if (e.detail.requestConfig.verb === "post" 
+      && e.detail.xhr.status === 200
+      && e.detail.target.id.split("-")[0] === "cardcontainer") {
+        // using async to solve this callback invoked twice
+        await deleteTheCard(await getCardThatShouldBeDeleted(e))
+      }
   })
 })

@@ -1,0 +1,5 @@
+{% for card in cards  %}
+  {% if card.board_id == board.id %}
+    {% include 'components/card.html' with card=card %}
+  {% endif %}
+{% endfor %}

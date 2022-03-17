@@ -17,7 +17,7 @@
   <div 
     class="d-flex justify-content-start container-fluid p-0"
     id="board__container"
-    hx-trigger="boardAdded from:body"
+    hx-trigger="boardAdded delay:1s from:body"
     hx-get="{% url 'last-board' workspace.id|encrypt_id %}"
     hx-target="this"
     hx-swap="beforeend"

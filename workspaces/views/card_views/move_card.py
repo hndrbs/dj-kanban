@@ -1,3 +1,4 @@
+from workspaces.models import Workspace
 from .importer import *
 
 @login_required
@@ -20,9 +21,18 @@ def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
       card.board_id = board_id_to
       card.save()
       messages.success(request, "Successfully to move a card")
-      return redirect(urls.reverse('boards', args=[data.get('workspace_id')]))
-    else:
-      messages.warning(request, Const.INVALID_MOVE_CARD)
+      board = Board.objects.filter(id=board_id_to).first()
+      workspace = Workspace.objects.filter(id=workspace_id).first()
+      context = {
+        "board": board,
+        "workspace": workspace,
+        "card": card,
+        "partial": True
+      }
+
+      return djrender(request, "components/card.html", context)
+    
+    messages.warning(request, Const.INVALID_MOVE_CARD)
 
   except Exception as err:
     exception_message_dispatcher(request, err)

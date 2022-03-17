@@ -1,13 +1,17 @@
 {% load workspace_template_tags %}
 <form 
   method="post"
-  hx-target="#content"
-  hx-swap="innerHTML"
+  {% if go_to == "left"  %}
+      hx-target="#cardcontainer-{{ board|get_previous_board_id|encrypt_id }}"
+  {% elif go_to == "right" %}
+    hx-target="#cardcontainer-{{ board|get_next_board_id|encrypt_id }}"
+  {% endif %}
+  hx-swap="afterbegin"
   hx-post="{% url 'move-card' %}"
 >
   {% csrf_token %}
 
-  <input type="hidden" name="workspace_id" value="{{ workspace.id|encrypt_id }}">
+  <input type="hidden" name="workspace_id" value="{{ board.workspace_id|encrypt_id }}">
   <input type="hidden" name="board_from" value="{{ board.id|encrypt_id }}">
   
   {% if go_to == "left"  %}
