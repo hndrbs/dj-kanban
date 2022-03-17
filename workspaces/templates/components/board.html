@@ -10,18 +10,30 @@
   id="board-{{ board.id|encrypt_id }}"
 >
   {% include 'components/board_header.html' %}
+  <span 
+    class="d-none"
+    hx-trigger="boardDeleted-{{ board|get_previous_board_id|encrypt_id }}, boardDeleted-{{ board|get_next_board_id|encrypt_id }} delay:1s from:body"
+    hx-target="#board-{{ board.id|encrypt_id }}"
+    hx-swap="outerHTML"
+    hx-get="{% url 'refresh-board' board.id|encrypt_id %}"
+  >
+  </span>
+  {% if board|get_next_board_id == 0 %}
+    <span class="d-none"
+      hx-trigger="boardAdded delay:1s  from:body"
+      hx-target="#board-{{ board.id|encrypt_id }}"
+      hx-get="{% url 'refresh-board' board.id|encrypt_id %}"
+      hx-swap="outerHTML"
+    ></span>
+  {% endif %}
   <div 
     class="flex-fill py-2"
-    hx-trigger="cardAdded-{{ board.id|encrypt_id }} from:body"
+    hx-trigger="cardAdded-{{ board.id|encrypt_id }} delay:1s from:body"
     hx-target="this"
     hx-get="{% url 'last-card' board.id|encrypt_id %}"
     hx-swap="afterbegin"
     id="cardcontainer-{{ board.id|encrypt_id }}"
   >
-    {% for card in cards  %}
-      {% if card.board_id == board.id %}
-        {% include 'components/card.html' with card=card %}
-      {% endif %}
-    {% endfor %}
+    {% include 'components/cards.html' %}
   </div>
 </div>

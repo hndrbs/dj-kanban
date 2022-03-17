@@ -27,7 +27,9 @@ def delete_board(request: HttpRequest) -> HttpResponse:
       if board.exists():
         board.delete()
         messages.success(request, "Successfully to delete a board")
-        return djrender(request, "messages.html")
+        response = djrender(request, "messages.html")
+        response["HX-Trigger"] = f"boardDeleted-{encrypted_board_id}"
+        return response
       
       messages.warning(request, Const.NOT_FOUND_BOARD)
 

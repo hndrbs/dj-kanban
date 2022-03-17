@@ -7,7 +7,7 @@
 <div
   class="bg-secondary text-light p-2 d-flex rounded"
   hx-trigger="boardEdited-{{ board.id|encrypt_id }} from:body"
-  hx-get="{% url 'one-board' workspace.id|encrypt_id board.id|encrypt_id %}"
+  hx-get="{% url 'one-board' board.workspace_id|encrypt_id board.id|encrypt_id %}"
   hx-swap="outerHTML"
   hx-target="this"
 >

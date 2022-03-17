@@ -9,7 +9,7 @@
   class="card my-2"
   hx-trigger="cardEdited-{{ card.id|encrypt_id }} from:body"
   hx-swap="outerHTML"
-  hx-get="{% url 'one-card' workspace.id|encrypt_id board.id|encrypt_id card.id|encrypt_id %}"
+  hx-get="{% url 'one-card' board.id|encrypt_id card.id|encrypt_id %}"
   hx-target="this"
   data-card="{{ card.id|encrypt_id }}"
   data-parent="{{ board.id|encrypt_id }}"

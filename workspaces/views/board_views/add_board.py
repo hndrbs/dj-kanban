@@ -23,7 +23,7 @@ def add_board(request: HttpRequest, encrypted_workspace_id: str)-> HttpResponse:
 
         if not boards.exists():
           workspace = Workspace.objects.get(id=get_model_id(encrypted_workspace_id))
-          Board.objects.create(title=title, workspace=workspace)          
+          Board.objects.create(title=title, workspace=workspace)
           return HttpResponse(status=204, headers={"HX-Trigger": "boardAdded"})
         
         else:
