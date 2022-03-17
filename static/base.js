@@ -18,7 +18,7 @@ function clearMessage(id){
     htmx.remove(alert, baseDelay)
 
     if (idx + 1 === alerts.length) {
-      htmx.remove(messageWrapper, baseDelay + 1000);
+      setTimeout(() => messageWrapper.remove(), baseDelay + 3000)
     }
   })
 }
@@ -48,10 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
   htmx.on("htmx:beforeSwap", (e) => {
-    if (e.detail.requestConfig.verb === "post") {
-        if ([204, 200].includes(e.detail.xhr.status)) {
+    // handle on edit + add
+    if (e.detail.requestConfig.verb === "post" && e.detail.target === "dialog") {
+        if (e.detail.xhr.status === 204) {
           modal.hide()
-          e.detail.shouldSwap = (e.detail.target !== "dialog")
+          e.detail.shouldSwap = false
           removeEmptyContentContainer()
         } else {
           renewModal()

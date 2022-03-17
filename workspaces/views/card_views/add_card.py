@@ -10,29 +10,24 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
   }
   board_id = get_model_id(encrypted_board_id)
   
-  if request.method == 'GET':
-    try:
-      if Board.objects.filter(id=board_id).exists():
-        return render(request, 'common_form.html', context)
-    
-      messages.warning(request, Const.NOT_FOUND_BOARD)
-
-    except Exception as err:
-      exception_message_dispatcher(request, err)
-
-    # this kind of response should be re-considered
-    return HttpResponse(status=204)
-  
+  if request.method == 'GET': return render(request, 'common_form.html', context)
   else:
     bounded_card_form = CardForm(request.POST)
     try:
       if bounded_card_form.is_valid():
-        Card.objects.create(
-          title = bounded_card_form.cleaned_data['title'],
-          target_date = bounded_card_form.cleaned_data['target_date'],
-          board_id = board_id
-        )
-        return HttpResponse(status=204, headers={"HX-Trigger": f"cardAdded-{encrypted_board_id}"})
+        cleanded_data = bounded_card_form.cleaned_data
+        title = cleanded_data['title']
+        board = Board.objects.filter(id=board_id).first()
+        
+        if not Card.objects.filter(Q(title=title) & Q(board__workspace_id=board.workspace_id)).exists():
+          Card.objects.create(
+            title = title,
+            target_date = cleanded_data['target_date'],
+            board_id = board_id
+          )
+          return HttpResponse(status=204, headers={"HX-Trigger": f"cardAdded-{encrypted_board_id}"})
+        
+        messages.warning(request, Const.ALREADY_EXISTS_CARD)
 
       messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
     

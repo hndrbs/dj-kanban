@@ -2,6 +2,7 @@
 <form 
   method="post"
   hx-target="#content"
+  hx-swap="innerHTML"
   hx-post="{% url 'move-card' %}"
 >
   {% csrf_token %}
