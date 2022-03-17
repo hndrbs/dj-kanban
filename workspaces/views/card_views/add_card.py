@@ -28,8 +28,8 @@ def add_card(request: HttpRequest, encrypted_board_id: str) -> HttpResponse:
           return HttpResponse(status=204, headers={"HX-Trigger": f"cardAdded-{encrypted_board_id}"})
         
         messages.warning(request, Const.ALREADY_EXISTS_CARD)
-
-      messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
+      else:
+        messages.warning(request, Const.BAD_SUBMITTED_DATA_MESSAGE)
     
     except Exception as err:
       exception_message_dispatcher(request, err)

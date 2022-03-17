@@ -26,7 +26,7 @@
         <button 
           hx-target="#dialog"
           hx-swap="innerHTMl"
-          hx-get="{% url 'edit-card' workspace.id|encrypt_id board.id|encrypt_id card.id|encrypt_id %}" class="dropdown-item"
+          hx-get="{% url 'edit-card' board.id|encrypt_id card.id|encrypt_id %}" class="dropdown-item"
         >edit</button>
       </li>
       <li>
