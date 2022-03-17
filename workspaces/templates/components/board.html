@@ -12,7 +12,7 @@
   {% include 'components/board_header.html' %}
   <span 
     class="d-none"
-    hx-trigger="boardDeleted-{{ board|get_previous_board_id|encrypt_id }}, boardDeleted-{{ board|get_next_board_id|encrypt_id }} delay:1s from:body"
+    hx-trigger="boardDeleted-{{ board|get_previous_board_id|encrypt_id }} from:body, boardDeleted-{{ board|get_next_board_id|encrypt_id }} delay:1s from:body"
     hx-target="#board-{{ board.id|encrypt_id }}"
     hx-swap="outerHTML"
     hx-get="{% url 'refresh-board' board.id|encrypt_id %}"

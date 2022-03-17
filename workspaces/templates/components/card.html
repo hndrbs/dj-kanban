@@ -13,6 +13,7 @@
   hx-target="this"
   data-card="{{ card.id|encrypt_id }}"
   data-parent="{{ board.id|encrypt_id }}"
+  id="card-{{ card.id|encrypt_id }}"
 >
   {% include 'components/card_header.html' %}
   <div class="card-body">

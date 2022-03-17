@@ -9,7 +9,7 @@ def fetch_last_created_card(request: HttpRequest, encrypted_board_id: str) -> Ht
   context = {
     "card": card,
     "partial": True,
-    "board": Board(id=board_id)
+    "board": Board.objects.filter(id=board_id).first()
   }
   
   messages.success(request, "successfully save a new card")

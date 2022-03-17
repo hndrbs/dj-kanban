@@ -13,12 +13,13 @@ def fetch_one_card(
   board_id = get_model_id(encrypted_board_id)
   id = get_model_id(encrypted_card_id)
   card = Card.objects.filter(board_id=board_id).filter(id=id).first()
-  workspace_id = Board.objects.filter(id=board_id).values_list('workspace_id').first()
+  board = Board.objects.filter(id=board_id).first()
+  workspace = Workspace.objects.filter(id=board.workspace_id)
   context = {
     "card": card,
     "partial": True,
-    "board": Board(id=board_id),
-    "workspace": Workspace(id=workspace_id),
+    "board": board,
+    "workspace": workspace,
   }
   
   messages.success(request, "successfully edit a card")

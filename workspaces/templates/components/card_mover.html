@@ -11,7 +11,7 @@
 >
   {% csrf_token %}
 
-  <input type="hidden" name="workspace_id" value="{{ workspace.id|encrypt_id }}">
+  <input type="hidden" name="workspace_id" value="{{ board.workspace_id|encrypt_id }}">
   <input type="hidden" name="board_from" value="{{ board.id|encrypt_id }}">
   
   {% if go_to == "left"  %}

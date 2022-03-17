@@ -21,9 +21,11 @@ def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
       card.board_id = board_id_to
       card.save()
       messages.success(request, "Successfully to move a card")
+      board = Board.objects.filter(id=board_id_to).first()
+      workspace = Workspace.objects.filter(id=workspace_id).first()
       context = {
-        "board": Board(id=board_id_to),
-        "workspace": Workspace(id=workspace_id),
+        "board": board,
+        "workspace": workspace,
         "card": card,
         "partial": True
       }
