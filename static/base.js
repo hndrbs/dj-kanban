@@ -48,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
   htmx.on("htmx:beforeSwap", (e) => {
-    // handle on edit + add
-    if (e.detail.requestConfig.verb === "post" && e.detail.target === "dialog") {
+    if (e.detail.requestConfig.verb === "post" && e.detail.target.id === "dialog") {
+        // handle on edit + add
         if (e.detail.xhr.status === 204) {
           modal.hide()
           e.detail.shouldSwap = false
@@ -57,11 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           renewModal()
         }
+    } else if (e.detail.requestConfig.verb === "post" 
+              && e.detail.xhr.status === 200
+              && ["card", "board", "workspace"].includes(e.detail.target.id.split("-")[0])
+    ) {
+      // handle on delete, always close modal and render message with status code 200
+      modal.hide()
+      e.detail.shouldSwap = true
     }
   })
-
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = ""
-  })
-
 })

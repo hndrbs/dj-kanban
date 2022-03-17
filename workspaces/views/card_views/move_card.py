@@ -27,5 +27,5 @@ def move_card_to_another_board(request: HttpRequest) -> HttpResponse:
   except Exception as err:
     exception_message_dispatcher(request, err)
   
-  return redirect(urls.reverse('boards', args=[data.get('workspace_id')]))
+  return djrender(request, "messages.html")
   
