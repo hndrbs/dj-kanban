@@ -22,14 +22,14 @@ def get_model_id(encrypted_id: str) -> int:
   
 def encrypt_id(id: int) -> str:
   return id
+  # encryption in base64 is creating a bug as it may add padding "="
   # plain_string = get_encryption_key() + str(id)
   # my_bytes = plain_string.encode('utf-8')
   # return base64.b64encode(my_bytes).decode('utf-8')
   
 
 def custom_render(request: HttpRequest, template: str, context: dict = {}, status:int = 200) -> HttpResponse:
-  if  request.headers.get('HX-Request')\
-      and not request.headers.get('HX-Current-URL', '').__contains__('auth'):
+  if  request.headers.get('HX-Request'):
     template = 'fragments/' + template
   
   return render(request, template, context=context, status=status)

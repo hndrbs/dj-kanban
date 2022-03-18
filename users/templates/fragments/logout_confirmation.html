@@ -6,17 +6,13 @@
 </div>
 <div class="modal-body">
   <div><p>Whoaaa, you are going to log out, are you sure ?</p></div>
-  <form method="post">
+  <form method="post" action="{{ request.path }}">
     {% csrf_token %}
     <div class="modal-footer">
       <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
       <button
         type="submit"
         class="btn btn-outline-danger"
-        hx-post="{{ request.path }}"
-        hx-target="#content-container"
-        hx-swap="innerHTML"
-        hx-push-url="true"
         >Sure</button>
     </div>
   </form>

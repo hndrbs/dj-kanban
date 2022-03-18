@@ -75,3 +75,4 @@ def logout_view(request: HttpRequest) -> HttpResponse:
   
   logout(request)
   return redirect(urls.reverse("login"))
+  
