@@ -25,7 +25,7 @@ def encrypt_id(id: int) -> str:
   return base64.b64encode(my_bytes).decode('utf-8')
   
 
-def custom_render(request: HttpRequest, template: str, context: dict, status:int = 200) -> HttpResponse:
+def custom_render(request: HttpRequest, template: str, context: dict = {}, status:int = 200) -> HttpResponse:
   if  request.headers.get('HX-Request')\
       and not request.headers.get('HX-Current-URL', '').__contains__('auth'):
     template = 'fragments/' + template

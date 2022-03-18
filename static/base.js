@@ -56,6 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Response targeting #dialog => show the modal
     if (e.detail.target.id == "dialog") {
       modal.show()
+    } else {
+      modal.hide()
     }
   })
 
