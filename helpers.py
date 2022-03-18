@@ -12,7 +12,7 @@ def get_encryption_key():
   return os.environ.get('MODEL_ENCRYPTION_KEY')
   
 def get_model_id(encrypted_id: str) -> int:
-  return encrypt_id
+  return encrypted_id
   # id_secret_key = base64.b64decode(encrypted_id).decode('utf-8')
   # id = id_secret_key.split(os.environ.get('MODEL_ENCRYPTION_KEY'))[1]
   
