@@ -1,3 +1,4 @@
+ 
 <header class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="navigation">
   <nav class="container-fluid">
     <a hx-boost="true" hx-target="#content" class="navbar-brand" href="/">Dj - Kanban</a>
@@ -8,16 +9,15 @@
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav mb-0 d-flex w-100">
         <li class="nav-item me-auto">
-          <a
-            hx-boost="true"
-            class="nav-link text-light"
-            href="{% url 'workspaces' %}"
+          <button
+            class="nav-link text-light btn btn-transparent"
+            hx-get="{% url 'workspaces' %}"
             hx-target="#content"
-          >Workspaces</a>
+          >Workspaces</button>
         </li>
         <li class="nav-item">
           <button
-            class="nav-link text-light btn btn-transparent"
+            class="text-white btn btn-transparent"
             hx-target="#dialog"
             hx-get="{% url 'logout' %}"
           >Logout</button>

@@ -1,12 +1,8 @@
 "use strict"
 
-let modal
-let hasAfterRequestBeenCalled = false
+var modal
+var hasAfterRequestBeenCalled = false
 
-const CONSTANTS = {
-  swapTypeAttribute: "data-swap-type",
-  swapTargetAttribute: "data-swap-target"
-}
 
 function clearMessage(id){
   let baseDelay = 10000
