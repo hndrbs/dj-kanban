@@ -1,6 +1,6 @@
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpRequest
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, decorators
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect
 from .forms import LoginForm, RegisterForm
@@ -67,8 +67,11 @@ def login_view(request: HttpRequest) -> HttpResponse:
     
     return render(request, "login.html", context)
 
-@require_http_methods(["GET"])
+@decorators.login_required
+@require_http_methods(["GET", "POST"])
 def logout_view(request: HttpRequest) -> HttpResponse:
+  if request.method == "GET":
+    return render(request, "logout_confirmation.html")
+  
   logout(request)
-
   return redirect(urls.reverse("login"))

@@ -12,6 +12,10 @@
   min-width: 350px;
 }
 
+.workspace-title {
+  font-size: clamp(25px, calc(100% + 0.5vw), 35px);
+}
+
 .message-wrapper {
   min-width: 320px;
   max-width: 700px;
@@ -40,4 +44,8 @@
 .htmx-request.loader div {
   height: 100%;
   width: 100%;
+}
+
+.clickable:hover {
+  cursor: pointer;
 }
