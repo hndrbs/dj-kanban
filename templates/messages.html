@@ -24,8 +24,21 @@
 </div>
 
 <script>
-  clearMessage("msg-{{ random_id }}")
+  var event = new CustomEvent("messagePushed", {
+    detail: {
+      messageId: "msg-{{ random_id }}"
+    }
+  })
+  var body = document.querySelector("body")
+  body.dispatchEvent(event)
 </script>
+
+{% comment %}
+  <script>
+    clearMessage("msg-{{ random_id }}")
+  </script>
+{% endcomment %}
+  
 
 {% endwith %}
 
