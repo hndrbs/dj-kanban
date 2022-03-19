@@ -1,7 +1,11 @@
 {% load workspace_template_tags %}
 {% if messages %}
 
-{% with random_id=100|generate_random|encrypt_id  %}
+{% comment %}
+  {% with random_id=100|generate_random|encrypt_id  %}
+{% endcomment %}
+  
+{% with random_id=100  %}
 
 <div class="message-wrapper" id="msg-{{ random_id }}">
   {% for msg in messages %}
@@ -24,20 +28,13 @@
 </div>
 
 <script>
-  var event = new CustomEvent("messagePushed", {
-    detail: {
-      messageId: "msg-{{ random_id }}"
-    }
-  })
-  var body = document.querySelector("body")
-  body.dispatchEvent(event)
+  document
+    .querySelector("#msg-{{ random_id }}")
+    .dispatchEvent(new CustomEvent("messagePushed", {
+        detail: { messageId: "msg-{{ random_id }}" }
+      })
+    )
 </script>
-
-{% comment %}
-  <script>
-    clearMessage("msg-{{ random_id }}")
-  </script>
-{% endcomment %}
   
 
 {% endwith %}
