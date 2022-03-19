@@ -42,7 +42,9 @@ INSTALLED_APPS = [
   'livereload',
   'django.contrib.staticfiles',
   'users',
-  'workspaces'
+  'workspaces',
+  'boards',
+  'cards',
 ]
 
 AUTH_USER_MODEL = 'users.User'
